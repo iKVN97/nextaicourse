@@ -1642,6 +1642,18 @@
     .s-mod-desc{ grid-column:2; }
   }
 
+  .s-foot-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem 1.25rem;
+  }
+  .s-foot-links a{
+    color:var(--text-faint);
+    text-decoration:none;
+    transition:color 0.25s ease;
+  }
+  .s-foot-links a:hover{ color:var(--accent); }
+
   @media (prefers-reduced-motion: reduce){
     .js-reveal [data-reveal]{
       opacity:1 !important;
@@ -2064,7 +2076,13 @@
 
   <footer class="s-wrap s-foot">
     <div class="wordmark"><span class="dot"></span>NEXT AI COURSE</div>
-    <div>&copy; 2026 &middot; All rights reserved</div>
+    <nav class="s-foot-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="refund.html">Refund</a>
+      <a href="mailto:support@nextaicourse.com">Contact</a>
+    </nav>
+    <div>VK Sales &middot; KvK 88034097 &middot; &copy; 2026</div>
   </footer>
 
 </div>
