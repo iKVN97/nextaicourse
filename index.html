@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Next AI Course — 2026</title>
+<style>
+  :root{
+    --bg:#0A0A0C;
+    --bg-soft:#111113;
+    --bg-console:#131316;
+    --border:#242226;
+    --border-soft:#1B1A1D;
+    --text:#EDEAE3;
+    --text-dim:#948F86;
+    --text-faint:#5C5852;
+    --accent:#FF5A2C;
+    --accent-soft:rgba(255,90,44,0.13);
+    --accent-soft-2:rgba(255,90,44,0.28);
+    --success:#6FE3B4;
+    --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-display);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .page{
+    position:relative;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    isolation:isolate;
+  }
+
+  .bg-fx{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:28px 28px;
+    background-position:-4px -4px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 90%);
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 90%);
+  }
+
+  .bg-glow{
+    position:absolute;
+    z-index:-1;
+    pointer-events:none;
+    top:8%;
+    right:-10%;
+    width:min(60vw,720px);
+    height:min(60vw,720px);
+    background:radial-gradient(circle, var(--accent-soft) 0%, rgba(255,90,44,0) 65%);
+    filter:blur(10px);
+    animation:glow-pulse 9s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse{
+    0%,100%{ opacity:0.7; transform:scale(1); }
+    50%{ opacity:1; transform:scale(1.08); }
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.25rem clamp(1.25rem,4vw,3rem);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .wordmark{
+    display:flex;
+    align-items:center;
+    gap:0.55rem;
+    font-family:var(--font-mono);
+    font-size:0.8rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+  .wordmark .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+    flex:none;
+  }
+  .nav-tag{
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    letter-spacing:0.12em;
+    color:var(--text-faint);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:2.5rem;
+    padding:clamp(2.25rem,6vw,3.5rem) clamp(1.25rem,4vw,3rem) 2.5rem;
+    align-items:center;
+    max-width:1320px;
+    width:100%;
+    margin:0 auto;
+  }
+
+  .hero-copy{
+    max-width:640px;
+  }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 1.4rem;
+    opacity:0;
+    animation:rise 0.7s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay:0.05s;
+  }
+  .eyebrow b{
+    color:var(--text);
+    font-weight:600;
+  }
+  .eyebrow .slash{
+    color:var(--accent);
+    margin:0 0.35em;
+  }
+
+  .headline{
+    margin:0 0 1.6rem;
+    font-weight:850;
+    font-size:clamp(2.1rem, 8.5vw, 6.2rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+  }
+  .headline .line{
+    display:block;
+    overflow:hidden;
+  }
+  .headline .line span{
+    display:block;
+    opacity:0;
+    transform:translateY(100%);
+    animation:rise 0.75s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .headline .line:nth-child(1) span{ animation-delay:0.14s; }
+  .headline .line:nth-child(2) span{ animation-delay:0.24s; }
+  .headline .line:nth-child(3) span{ animation-delay:0.34s; color:var(--accent); }
+
+  .sub{
+    margin:0 0 0.55rem;
+    font-size:clamp(1rem,1.1vw + 0.75rem,1.2rem);
+    line-height:1.5;
+    max-width:34ch;
+    opacity:0;
+    animation:rise 0.7s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .sub-lede{ color:var(--text-dim); animation-delay:0.46s; }
+  .sub-main{ color:var(--text); font-weight:600; animation-delay:0.54s; margin-bottom:1.9rem; }
+
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:0.65rem 0.9rem;
+    list-style:none;
+    margin:0 0 2.1rem;
+    padding:0;
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    opacity:0;
+    animation:rise 0.7s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay:0.62s;
+  }
+  .meta-row li{
+    display:flex;
+    align-items:center;
+    gap:0.9rem;
+  }
+  .meta-row li:not(:last-child)::after{
+    content:"";
+    width:3px;height:3px;border-radius:50%;
+    background:var(--text-faint);
+    margin-left:0.9rem;
+  }
+  .meta-row li b{
+    color:var(--text);
+    font-weight:600;
+  }
+
+  .cta-wrap{
+    opacity:0;
+    animation:rise 0.7s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay:0.72s;
+  }
+
+  .cta{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:0.75rem;
+    background:var(--accent);
+    color:#160800;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:0.92rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:1.05rem 1.5rem;
+    border-radius:10px;
+    box-shadow:0 0 0 1px rgba(255,90,44,0.4), 0 18px 40px -12px rgba(255,90,44,0.55);
+    transition:transform 0.25s cubic-bezier(.16,1,.3,1), box-shadow 0.25s ease, background 0.25s ease;
+    width:100%;
+    justify-content:center;
+  }
+  .cta svg{
+    width:18px;height:18px;
+    transition:transform 0.3s cubic-bezier(.16,1,.3,1);
+    flex:none;
+  }
+  .cta:hover{
+    background:#FF6E45;
+    transform:translateY(-2px);
+    box-shadow:0 0 0 1px rgba(255,90,44,0.55), 0 22px 48px -12px rgba(255,90,44,0.7);
+  }
+  .cta:hover svg{ transform:translateX(4px); }
+  .cta:active{ transform:translateY(0px) scale(0.98); }
+  .cta:focus-visible{
+    outline:2px solid var(--text);
+    outline-offset:3px;
+  }
+
+  @media (min-width:640px){
+    .cta{ width:auto; }
+  }
+
+  /* ---------- CONSOLE DEMO ---------- */
+  .hero-demo{
+    width:100%;
+    opacity:0;
+    animation:rise 0.8s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay:0.5s;
+  }
+
+  .console{
+    width:100%;
+    background:linear-gradient(180deg, var(--bg-console), var(--bg-soft));
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 30px 70px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  }
+
+  .console-chrome{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.85rem 1rem;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .console-chrome .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--border);
+  }
+  .console-title{
+    margin-left:0.5rem;
+    font-family:var(--font-mono);
+    font-size:0.75rem;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+  .console-live{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    color:var(--text-faint);
+    text-transform:uppercase;
+  }
+  .console-live .blip{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--success);
+    box-shadow:0 0 0 3px rgba(111,227,180,0.18);
+    animation:blip 1.6s ease-in-out infinite;
+  }
+  @keyframes blip{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+  .console-steps{
+    display:flex;
+    gap:0.5rem;
+    padding:0.9rem 1rem 0;
+    flex-wrap:wrap;
+  }
+  .pill{
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    padding:0.4rem 0.7rem;
+    border-radius:100px;
+    border:1px solid var(--border);
+    color:var(--text-faint);
+    transition:color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  }
+  .pill.active{
+    color:var(--accent);
+    border-color:var(--accent-soft-2);
+    background:var(--accent-soft);
+  }
+  .pill.done{
+    color:var(--success);
+    border-color:rgba(111,227,180,0.25);
+  }
+
+  .console-body{
+    padding:1.1rem 1rem 1.3rem;
+    min-height:168px;
+    display:flex;
+    flex-direction:column;
+    gap:0.55rem;
+    font-family:var(--font-mono);
+    font-size:0.83rem;
+  }
+  .c-line{
+    display:flex;
+    align-items:baseline;
+    gap:0.55rem;
+    color:var(--text-dim);
+    min-height:1.3em;
+  }
+  .c-line .prompt{ color:var(--text-faint); flex:none; }
+  .c-line .txt{ color:var(--text); white-space:pre; }
+  .c-line .check{
+    color:var(--success);
+    opacity:0;
+    transition:opacity 0.25s ease;
+    margin-left:0.25rem;
+  }
+  .c-line.done .txt{ color:var(--text-dim); }
+  .c-line.done .check{ opacity:1; }
+  .cursor{
+    display:inline-block;
+    width:7px;height:1em;
+    background:var(--accent);
+    margin-left:2px;
+    vertical-align:text-bottom;
+    animation:blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .scroll-cue{
+    display:flex;
+    justify-content:center;
+    padding-bottom:1.6rem;
+    opacity:0.5;
+  }
+  .scroll-cue svg{
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(6px); }
+  }
+
+  @keyframes rise{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .sub, .meta-row, .cta-wrap, .hero-demo, .eyebrow{ transform:translateY(14px); }
+
+  @media (min-width:960px){
+    .hero{
+      grid-template-columns:1.15fr 1fr;
+      align-items:center;
+      min-height:calc(100dvh - 74px);
+      gap:3.5rem;
+    }
+    .console-body{ min-height:220px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+    .eyebrow, .sub, .meta-row, .cta-wrap, .hero-demo, .headline .line span{ opacity:1; transform:none; }
+  }
+</style>
+
+<!-- ================= CINEMATIC INTRO ================= -->
+<style>
+  body.intro-lock{ overflow:hidden; height:100dvh; }
+
+  .intro-overlay{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#040403;
+    overflow:hidden;
+    perspective:1200px;
+    perspective-origin:50% 55%;
+    animation:intro-reveal 4.2s linear both;
+  }
+  .intro-overlay.skip{ transition:opacity .28s ease-out; }
+  .intro-overlay.skip,
+  .intro-overlay.skip *{ animation-play-state:paused !important; }
+
+  @keyframes intro-reveal{
+    0%,85%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  .intro-vignette{
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 75% 60% at 50% 48%, transparent 40%, rgba(0,0,0,0.65) 100%);
+    pointer-events:none;
+  }
+
+  .intro-keylight{
+    position:absolute;
+    width:74vmin; height:74vmin;
+    left:50%; top:44%;
+    transform:translate(-50%,-50%) scale(0.6);
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,150,90,0.38), rgba(255,90,44,0.08) 42%, transparent 70%);
+    filter:blur(18px);
+    opacity:0;
+    animation:intro-keylight 4.2s ease-in-out both;
+    pointer-events:none;
+  }
+  @keyframes intro-keylight{
+    0%,28%{ opacity:0; transform:translate(-50%,-50%) scale(0.55); }
+    64%{ opacity:0.85; transform:translate(-50%,-50%) scale(0.95); }
+    76%{ opacity:1; transform:translate(-50%,-50%) scale(1.18); }
+    90%{ opacity:0.4; transform:translate(-50%,-50%) scale(1.05); }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(0.85); }
+  }
+
+  .intro-rays{
+    position:absolute;
+    inset:-20%;
+    left:50%; top:44%;
+    width:140vmax; height:140vmax;
+    transform:translate(-50%,-50%) scale(0.8) rotate(0deg);
+    background:repeating-conic-gradient(from 0deg, rgba(255,235,220,0.07) 0deg 1.1deg, transparent 1.1deg 9deg);
+    -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
+    mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
+    opacity:0;
+    animation:intro-rays 4.2s linear both;
+    pointer-events:none;
+  }
+  @keyframes intro-rays{
+    0%,18%{ opacity:0; transform:translate(-50%,-50%) scale(0.7) rotate(0deg); }
+    50%{ opacity:0.3; transform:translate(-50%,-50%) scale(1.25) rotate(4deg); }
+    71%{ opacity:0.45; transform:translate(-50%,-50%) scale(1.7) rotate(7deg); }
+    77%,100%{ opacity:0; transform:translate(-50%,-50%) scale(1.9) rotate(8deg); }
+  }
+
+  .intro-particles{ position:absolute; inset:0; opacity:0; animation:intro-particles-fade 4.2s linear both; pointer-events:none; }
+  @keyframes intro-particles-fade{
+    0%,10%{ opacity:0; }
+    22%,80%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+  .intro-particle{
+    position:absolute;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:rgba(237,234,227,0.55);
+    animation:intro-drift linear infinite;
+    will-change:transform,opacity;
+  }
+  @keyframes intro-drift{
+    0%{ transform:translateY(6vh) scale(1); opacity:0; }
+    12%{ opacity:1; }
+    88%{ opacity:1; }
+    100%{ transform:translateY(-10vh) scale(0.6); opacity:0; }
+  }
+
+  .intro-stage{
+    position:relative;
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    transform-style:preserve-3d;
+    animation:intro-shake 4.2s linear both;
+  }
+  @keyframes intro-shake{
+    0%,69%{ transform:translate(0,0); }
+    71%{ transform:translate(-7px,4px); }
+    73%{ transform:translate(6px,-5px); }
+    75%{ transform:translate(-5px,3px); }
+    77%{ transform:translate(3px,-2px); }
+    79%{ transform:translate(-1px,1px); }
+    81%,100%{ transform:translate(0,0); }
+  }
+
+  .intro-card{
+    position:relative;
+    width:min(54vmin,430px);
+    height:min(32vmin,250px);
+    transform-style:preserve-3d;
+    opacity:0;
+    animation:intro-flight 4.2s linear both;
+    will-change:transform,filter,opacity;
+  }
+  @keyframes intro-flight{
+    0%   { opacity:0; filter:blur(0px); transform:translateZ(-19000px) translate(0,3vmin) rotateY(-24deg) rotateX(8deg); }
+    6%   { opacity:1; }
+    45%  { filter:blur(1px); transform:translateZ(-2400px) translate(0,1.4vmin) rotateY(-10deg) rotateX(3.5deg); }
+    63%  { filter:blur(4px); transform:translateZ(-450px) translate(0,0.4vmin) rotateY(-3deg) rotateX(1deg); }
+    72%  { filter:blur(9px); transform:translateZ(190px) translate(0,0) rotateY(0deg) rotateX(0deg); }
+    76%  { filter:blur(2px); transform:translateZ(70px) translate(0,0) rotateY(0deg) rotateX(0deg); }
+    80%  { filter:blur(0px); transform:translateZ(110px) rotateY(0deg) rotateX(0deg); }
+    88%  { opacity:1; filter:blur(0px); transform:translateZ(90px) rotateY(0deg) rotateX(0deg); }
+    100% { opacity:1; filter:blur(7px); transform:translateZ(-7000px) translate(-132vw,-124vh) rotateY(14deg) rotateX(-8deg); }
+  }
+
+  .card-shadow{
+    position:absolute;
+    left:8%; right:8%; bottom:-14%;
+    height:26%;
+    background:radial-gradient(ellipse at center, rgba(0,0,0,0.55), transparent 70%);
+    filter:blur(6px);
+    transform:translateZ(-4px);
+  }
+
+  .card-plate{
+    position:absolute; inset:0;
+    border-radius:clamp(10px,2.2vmin,18px);
+    background:linear-gradient(155deg, #18140f 0%, #0b0a09 55%, #050403 100%);
+    border:1px solid rgba(255,255,255,0.09);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 0 0 1px rgba(0,0,0,0.4),
+      0 2px 1px rgba(255,120,70,0.25);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:7% 9%;
+    overflow:hidden;
+    font-size:clamp(0.75rem,3.1vmin,1.3rem);
+  }
+  .card-top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:var(--font-mono);
+    font-size:0.5em;
+    letter-spacing:0.16em;
+    color:var(--text-faint);
+    margin-bottom:auto;
+  }
+  .card-top-row .card-live{
+    display:flex; align-items:center; gap:0.4em;
+    color:var(--accent);
+  }
+  .card-top-row .card-live::before{
+    content:"";
+    width:0.4em; height:0.4em; border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .card-word{
+    font-family:var(--font-display);
+    font-weight:850;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    line-height:0.96;
+    font-size:1.9em;
+    color:var(--text);
+    margin:0.3em 0 0.32em;
+  }
+  .card-word em{
+    display:block;
+    font-style:normal;
+    color:var(--accent);
+  }
+  .card-caption{
+    font-family:var(--font-mono);
+    font-size:0.52em;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    padding-top:0.7em;
+    border-top:1px solid var(--border-soft);
+    margin-top:auto;
+  }
+  .card-sheen{
+    position:absolute; inset:0;
+    background:linear-gradient(115deg, transparent 32%, rgba(255,255,255,0.22) 49%, transparent 64%);
+    background-size:240% 240%;
+    background-position:-70% -70%;
+    opacity:0;
+    animation:intro-sheen 4.2s linear both;
+    pointer-events:none;
+  }
+  @keyframes intro-sheen{
+    0%,66%{ opacity:0; background-position:-70% -70%; }
+    73%{ opacity:1; }
+    87%{ opacity:0; background-position:70% 70%; }
+    100%{ opacity:0; background-position:70% 70%; }
+  }
+
+  .intro-ring{
+    position:absolute;
+    left:50%; top:44%;
+    width:min(40vmin,320px); height:min(40vmin,320px);
+    border-radius:50%;
+    border:2px solid var(--accent);
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.15);
+    animation:intro-ring 4.2s linear both;
+    pointer-events:none;
+  }
+  @keyframes intro-ring{
+    0%,70%{ opacity:0; transform:translate(-50%,-50%) scale(0.15); }
+    73%{ opacity:0.85; transform:translate(-50%,-50%) scale(0.4); }
+    88%{ opacity:0; transform:translate(-50%,-50%) scale(2.4); }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(2.4); }
+  }
+
+  .intro-flash{
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 46%, rgba(255,255,255,0.95) 0%, rgba(255,180,130,0.5) 32%, rgba(255,90,44,0) 68%);
+    mix-blend-mode:screen;
+    opacity:0;
+    animation:intro-flash 4.2s linear both;
+    pointer-events:none;
+  }
+  @keyframes intro-flash{
+    0%,70%{ opacity:0; }
+    73%{ opacity:0.95; }
+    79%{ opacity:0.1; }
+    84%,100%{ opacity:0; }
+  }
+
+  .intro-skip{
+    position:absolute;
+    right:max(1.1rem, env(safe-area-inset-right));
+    bottom:max(1.1rem, env(safe-area-inset-bottom));
+    appearance:none;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,0.04);
+    color:var(--text-dim);
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:0.55rem 0.9rem;
+    border-radius:100px;
+    cursor:pointer;
+    opacity:0;
+    animation:intro-skip-fade 4.2s linear both;
+  }
+  .intro-skip:hover{ color:var(--text); border-color:var(--accent-soft-2); }
+  .intro-skip:focus-visible{ outline:2px solid var(--text); outline-offset:2px; }
+  @keyframes intro-skip-fade{
+    0%,10%{ opacity:0; }
+    16%,85%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  /* ---- narrative beats ---- */
+  .intro-narrative{
+    position:absolute;
+    left:50%; top:25%;
+    transform:translateX(-50%);
+    width:min(84vw,540px);
+    text-align:center;
+    z-index:5;
+    pointer-events:none;
+  }
+  .intro-line{
+    position:absolute;
+    left:0; right:0; top:0;
+    opacity:0;
+    font-family:var(--font-display);
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    line-height:1.2;
+    color:var(--text);
+    text-wrap:balance;
+  }
+  .intro-line em{ font-style:normal; color:var(--accent); }
+
+  .intro-line-1{
+    font-size:clamp(1rem,4.2vw,1.6rem);
+    color:var(--text-dim);
+    animation:intro-l1 4.2s linear both;
+  }
+  @keyframes intro-l1{
+    0%,7%{ opacity:0; transform:translateY(6px); }
+    11%,20%{ opacity:1; transform:translateY(0); }
+    26%,100%{ opacity:0; transform:translateY(-6px); }
+  }
+
+  .intro-line-2{
+    font-size:clamp(1.15rem,4.8vw,1.9rem);
+    animation:intro-l2 4.2s linear both;
+  }
+  @keyframes intro-l2{
+    0%,30%{ opacity:0; transform:translateY(6px); }
+    34%,50%{ opacity:1; transform:translateY(0); }
+    56%,100%{ opacity:0; transform:translateY(-6px); }
+  }
+
+  .intro-narrative-2{
+    position:absolute;
+    left:50%; top:60%;
+    transform:translateX(-50%);
+    width:min(90vw,600px);
+    text-align:center;
+    z-index:5;
+    pointer-events:none;
+  }
+  .intro-line-4{
+    opacity:0;
+    font-size:clamp(1.1rem,4.6vw,1.85rem);
+    font-family:var(--font-display);
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    line-height:1.22;
+    color:var(--text);
+    text-wrap:balance;
+    animation:intro-l4 4.2s linear both;
+  }
+  @keyframes intro-l4{
+    0%,83%{ opacity:0; transform:translateY(8px); }
+    88%,100%{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .intro-overlay{ animation:intro-reveal-reduced 0.9s ease both; }
+    .intro-stage, .intro-card, .intro-keylight, .intro-rays, .intro-particles,
+    .intro-ring, .intro-flash, .card-sheen, .intro-skip,
+    .intro-line-1, .intro-line-2, .intro-line-4{ animation:none !important; }
+    .intro-card{ opacity:1; filter:none; transform:translateZ(0) rotateY(0) rotateX(0); }
+    .intro-flash, .intro-ring, .intro-rays, .card-sheen,
+    .intro-narrative, .intro-narrative-2{ opacity:0 !important; }
+    @keyframes intro-reveal-reduced{ 0%,40%{ opacity:1; } 100%{ opacity:0; } }
+  }
+</style>
+
+<div class="intro-overlay" id="introOverlay" aria-hidden="true" role="presentation">
+  <div class="intro-vignette"></div>
+  <div class="intro-keylight"></div>
+  <div class="intro-rays"></div>
+  <div class="intro-particles" id="introParticles"></div>
+
+  <div class="intro-narrative">
+    <p class="intro-line intro-line-1">You use AI.</p>
+    <p class="intro-line intro-line-2">But do you<br><em>really</em> know how?</p>
+  </div>
+
+  <div class="intro-stage">
+    <div class="intro-card">
+      <div class="card-shadow"></div>
+      <div class="card-plate">
+        <div class="card-top-row"><span>COURSE / 2026</span><span class="card-live">LIVE</span></div>
+        <div class="card-word">NEXT<em>AI COURSE</em></div>
+        <div class="card-caption">Practical AI Skills</div>
+        <div class="card-sheen"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-ring"></div>
+  <div class="intro-flash"></div>
+
+  <div class="intro-narrative-2">
+    <p class="intro-line-4">Don't just use AI.<br><em>Know how to use it.</em></p>
+  </div>
+
+  <button class="intro-skip" id="introSkip" type="button" aria-label="Skip intro">Skip</button>
+</div>
+<!-- =============== /CINEMATIC INTRO =============== -->
+
+<div class="page">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wordmark"><span class="dot"></span>NEXT AI COURSE</div>
+    <div class="nav-tag">2026 EDITION</div>
+  </header>
+
+  <main class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><b>NEXT AI COURSE</b><span class="slash">/</span>2026</p>
+
+      <h1 class="headline">
+        <span class="line"><span>AI WON'T WAIT</span></span>
+        <span class="line"><span>FOR YOU TO</span></span>
+        <span class="line"><span>CATCH UP.</span></span>
+      </h1>
+
+      <p class="sub sub-lede">Most people use AI. Few know how to actually work with it.</p>
+      <p class="sub sub-main">Learn practical AI skills to research, analyse, automate and work faster.</p>
+
+      <ul class="meta-row">
+        <li><b>~2 HOURS</b></li>
+        <li><b>NO CODING</b></li>
+        <li><b>€39.99</b></li>
+      </ul>
+
+      <div class="cta-wrap">
+        <button class="cta" type="button" data-checkout>
+          <span>Build Your AI Advantage</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-demo" aria-hidden="true">
+      <div class="console">
+        <div class="console-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="console-title">agent.run — day 3 / automate.py</span>
+          <span class="console-live"><span class="blip"></span>live</span>
+        </div>
+        <div class="console-steps" id="consoleSteps">
+          <span class="pill" data-step="research">RESEARCH</span>
+          <span class="pill" data-step="analyse">ANALYSE</span>
+          <span class="pill" data-step="automate">AUTOMATE</span>
+          <span class="pill" data-step="deliver">DELIVER</span>
+        </div>
+        <div class="console-body" id="consoleBody"></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5C5852" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</div>
+<style>
+  /* =================================================================
+     NEXT AI COURSE — SALES PAGE (below hero)
+     Inherits all tokens from the hero :root. Prefixed .s- to avoid
+     collisions with hero globals (.sub/.meta-row/.cta-wrap/.eyebrow
+     carry opacity:0 + transform and must not be reused here).
+     ================================================================= */
+
+  .sales{
+    position:relative;
+    isolation:isolate;
+  }
+  .sales::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:28px 28px;
+    background-position:-4px -4px;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    mask-image:linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    opacity:0.5;
+  }
+
+  .s-wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding-inline:clamp(1.25rem,4vw,3rem);
+  }
+  .s-sec{
+    padding-block:clamp(4.5rem,11vw,8.5rem);
+    border-top:1px solid var(--border-soft);
+  }
+  .s-sec--flush{ border-top:none; }
+
+  /* ---------- section headers ---------- */
+  .s-head{ margin-bottom:clamp(2.5rem,5vw,4rem); }
+  .s-index{
+    display:flex;
+    align-items:center;
+    gap:0.85rem;
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin:0 0 1.5rem;
+  }
+  .s-index .n{ color:var(--accent); }
+  .s-index .rule{
+    flex:1;
+    height:1px;
+    background:var(--border);
+    min-width:1.5rem;
+  }
+  .s-title{
+    margin:0;
+    font-weight:850;
+    font-size:clamp(1.75rem,5.4vw,3.4rem);
+    line-height:1.03;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+    max-width:19ch;
+  }
+  .s-title .accent{ color:var(--accent); }
+  .s-lede{
+    margin:1.5rem 0 0;
+    font-size:clamp(1rem,0.5vw + 0.9rem,1.12rem);
+    line-height:1.6;
+    color:var(--text-dim);
+    max-width:56ch;
+  }
+  .s-lede strong{ color:var(--text); font-weight:600; }
+
+  /* ---------- reveals (JS-gated so no-JS still shows content) ---------- */
+  .js-reveal [data-reveal]{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.75s cubic-bezier(.16,1,.3,1), transform 0.75s cubic-bezier(.16,1,.3,1);
+    transition-delay:var(--d,0s);
+    will-change:opacity, transform;
+  }
+  .js-reveal [data-reveal].is-in{
+    opacity:1;
+    transform:none;
+  }
+
+  /* ---------- 01 GAP : prompt comparison ---------- */
+  .s-gap-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
+    margin-top:0.5rem;
+  }
+  .s-prompt{
+    background:linear-gradient(180deg, var(--bg-console), var(--bg-soft));
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:1.15rem 1.15rem 1.3rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .s-prompt-tag{
+    font-family:var(--font-mono);
+    font-size:0.66rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    margin-bottom:0.95rem;
+  }
+  .s-prompt-tag::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--text-faint);
+    flex:none;
+  }
+  .s-prompt--after .s-prompt-tag{ color:var(--accent); }
+  .s-prompt--after .s-prompt-tag::before{
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .s-prompt--after{ border-color:var(--accent-soft-2); }
+  .s-prompt-body{
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    line-height:1.75;
+    color:var(--text-dim);
+    margin:0;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .s-prompt-body .k{ color:var(--text); }
+  .s-prompt-body .dim{ color:var(--text-faint); }
+  .s-prompt-out{
+    margin-top:1rem;
+    padding-top:0.9rem;
+    border-top:1px dashed var(--border);
+    font-family:var(--font-mono);
+    font-size:0.74rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .s-prompt--after .s-prompt-out{ color:var(--success); }
+
+  .s-gap-points{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    margin-top:clamp(2.5rem,5vw,3.5rem);
+    border-top:1px solid var(--border-soft);
+  }
+  .s-gap-point{
+    padding:1.4rem 0;
+    border-bottom:1px solid var(--border-soft);
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0 1.1rem;
+    align-items:start;
+  }
+  .s-gap-point .gp-n{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    color:var(--accent);
+    padding-top:0.2rem;
+  }
+  .s-gap-point h3{
+    margin:0 0 0.4rem;
+    font-size:1rem;
+    font-weight:650;
+    letter-spacing:-0.01em;
+  }
+  .s-gap-point p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:0.94rem;
+    line-height:1.6;
+  }
+
+  /* ---------- 02 BEFORE / AFTER ---------- */
+  .s-ba{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
+    align-items:stretch;
+  }
+  .s-ba-panel{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:1.5rem 1.35rem 1.7rem;
+    background:var(--bg-soft);
+    position:relative;
+  }
+  .s-ba-panel--after{
+    border-color:var(--accent-soft-2);
+    background:linear-gradient(180deg, rgba(255,90,44,0.05), var(--bg-soft) 55%);
+    box-shadow:0 30px 70px -40px rgba(255,90,44,0.5);
+  }
+  .s-ba-label{
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin:0 0 1.35rem;
+    padding-bottom:0.9rem;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .s-ba-panel--after .s-ba-label{
+    color:var(--accent);
+    border-bottom-color:var(--accent-soft-2);
+  }
+  .s-ba-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:0.9rem;
+  }
+  .s-ba-list li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.75rem;
+    align-items:baseline;
+    font-size:0.96rem;
+    line-height:1.45;
+    color:var(--text-dim);
+  }
+  .s-ba-panel--after .s-ba-list li{ color:var(--text); }
+  .s-ba-mark{
+    font-family:var(--font-mono);
+    font-size:0.85rem;
+    flex:none;
+    color:var(--text-faint);
+  }
+  .s-ba-panel--after .s-ba-mark{ color:var(--success); }
+  .s-ba-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.6rem;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    padding:0.35rem 0;
+  }
+  .s-ba-arrow svg{ width:16px;height:16px; flex:none; }
+
+  /* ---------- 03 MODULES (editorial index, not cards) ---------- */
+  .s-mods{
+    border-top:1px solid var(--border);
+  }
+  .s-mod{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.35rem 1.1rem;
+    padding:1.6rem 0;
+    border-bottom:1px solid var(--border-soft);
+    position:relative;
+    transition:background 0.35s ease;
+  }
+  .s-mod::after{
+    content:"";
+    position:absolute;
+    left:calc(-1 * clamp(0.75rem,2vw,1.5rem));
+    top:0;
+    bottom:-1px;
+    width:2px;
+    background:var(--accent);
+    transform:scaleY(0);
+    transform-origin:top;
+    transition:transform 0.45s cubic-bezier(.16,1,.3,1);
+  }
+  .s-mod:hover::after,
+  .s-mod:focus-within::after{ transform:scaleY(1); }
+  .s-mod-n{
+    font-family:var(--font-mono);
+    font-size:0.74rem;
+    letter-spacing:0.12em;
+    color:var(--text-faint);
+    padding-top:0.35rem;
+    transition:color 0.3s ease;
+  }
+  .s-mod:hover .s-mod-n{ color:var(--accent); }
+  .s-mod-name{
+    margin:0;
+    font-weight:800;
+    font-size:clamp(1.25rem,3.6vw,1.9rem);
+    letter-spacing:-0.015em;
+    text-transform:uppercase;
+    line-height:1.1;
+  }
+  .s-mod-desc{
+    grid-column:2;
+    margin:0.5rem 0 0;
+    color:var(--text-dim);
+    font-size:0.97rem;
+    line-height:1.6;
+    max-width:54ch;
+  }
+
+  /* ---------- 04 USE CASES (command palette) ---------- */
+  .s-palette{
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    background:linear-gradient(180deg, var(--bg-console), var(--bg-soft));
+    box-shadow:0 30px 70px -30px rgba(0,0,0,0.7);
+  }
+  .s-palette-bar{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    padding:1rem 1.1rem;
+    border-bottom:1px solid var(--border-soft);
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    color:var(--text-faint);
+  }
+  .s-palette-bar .caret{ color:var(--accent); }
+  .s-palette-bar .ph{ color:var(--text-dim); }
+  .s-palette-list{
+    list-style:none;
+    margin:0;
+    padding:0.5rem 0;
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .s-palette-list li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.8rem;
+    align-items:baseline;
+    padding:0.72rem 1.1rem;
+    font-size:0.95rem;
+    color:var(--text-dim);
+    transition:background 0.25s ease, color 0.25s ease;
+  }
+  .s-palette-list li:hover{
+    background:rgba(255,255,255,0.02);
+    color:var(--text);
+  }
+  .s-palette-list .pc{
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    color:var(--text-faint);
+    flex:none;
+  }
+  .s-palette-list li:hover .pc{ color:var(--accent); }
+
+  /* ---------- 05 WHAT YOU GET (manifest) ---------- */
+  .s-manifest{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--bg-soft);
+  }
+  .s-manifest-row{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.9rem;
+    align-items:start;
+    padding:1.25rem 1.25rem;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .s-manifest-row:last-child{ border-bottom:none; }
+  .s-manifest-row .mk{
+    font-family:var(--font-mono);
+    color:var(--success);
+    font-size:0.9rem;
+    line-height:1.5;
+    flex:none;
+  }
+  .s-manifest-row h3{
+    margin:0;
+    font-size:1rem;
+    font-weight:650;
+    letter-spacing:-0.005em;
+  }
+  .s-manifest-row p{
+    margin:0.3rem 0 0;
+    color:var(--text-dim);
+    font-size:0.92rem;
+    line-height:1.55;
+  }
+
+  /* ---------- 06 WHO ---------- */
+  .s-who{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
+  }
+  .s-who-col{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:1.5rem 1.35rem 1.7rem;
+    background:var(--bg-soft);
+  }
+  .s-who-col--not{
+    background:transparent;
+    border-style:dashed;
+  }
+  .s-who-tags{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.55rem;
+  }
+  .s-who-tags li{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0.5rem 0.8rem;
+    border-radius:100px;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+  }
+  .s-who-col--for .s-who-tags li{
+    border-color:var(--accent-soft-2);
+    background:var(--accent-soft);
+    color:var(--text);
+  }
+  .s-who-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:0.8rem;
+  }
+  .s-who-list li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.75rem;
+    align-items:baseline;
+    color:var(--text-dim);
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .s-who-list .xk{
+    font-family:var(--font-mono);
+    color:var(--text-faint);
+    flex:none;
+  }
+
+  /* ---------- 07 METHOD (pipeline) ---------- */
+  .s-method{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    position:relative;
+  }
+  .s-step{
+    position:relative;
+    padding:0 0 2rem 2.2rem;
+  }
+  .s-step:last-child{ padding-bottom:0; }
+  .s-step::before{
+    content:"";
+    position:absolute;
+    left:7px;
+    top:1.9rem;
+    bottom:-0.15rem;
+    width:1px;
+    background:linear-gradient(180deg, var(--accent-soft-2), var(--border));
+  }
+  .s-step:last-child::before{ display:none; }
+  .s-node{
+    position:absolute;
+    left:0;
+    top:0.35rem;
+    width:15px;height:15px;
+    border-radius:50%;
+    border:1px solid var(--accent-soft-2);
+    background:var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .s-node::after{
+    content:"";
+    width:5px;height:5px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .s-step-n{
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    letter-spacing:0.16em;
+    color:var(--text-faint);
+    display:block;
+    margin-bottom:0.4rem;
+  }
+  .s-step h3{
+    margin:0 0 0.45rem;
+    font-size:1.15rem;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+  }
+  .s-step p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:0.95rem;
+    line-height:1.6;
+    max-width:46ch;
+  }
+
+  /* ---------- 08 OFFER ---------- */
+  .s-offer{
+    border:1px solid var(--accent-soft-2);
+    border-radius:20px;
+    padding:clamp(1.75rem,5vw,3rem);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,90,44,0.10), transparent 70%),
+      linear-gradient(180deg, var(--bg-console), var(--bg-soft));
+    box-shadow:0 40px 90px -40px rgba(255,90,44,0.4);
+    text-align:left;
+  }
+  .s-offer-top{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:0.75rem;
+    padding-bottom:1.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .s-offer-name{
+    margin:0;
+    font-weight:850;
+    font-size:clamp(1.6rem,5vw,2.4rem);
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+    line-height:1;
+  }
+  .s-offer-kind{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .s-price{
+    display:flex;
+    align-items:baseline;
+    gap:0.7rem;
+    flex-wrap:wrap;
+    margin:1.6rem 0 0.4rem;
+  }
+  .s-price-amt{
+    font-weight:850;
+    font-size:clamp(2.6rem,10vw,4.2rem);
+    letter-spacing:-0.03em;
+    line-height:1;
+    color:var(--text);
+  }
+  .s-price-note{
+    font-family:var(--font-mono);
+    font-size:0.76rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .s-offer-incl{
+    list-style:none;
+    margin:1.9rem 0 0;
+    padding:0;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0.8rem;
+  }
+  .s-offer-incl li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.75rem;
+    align-items:baseline;
+    font-size:0.97rem;
+    color:var(--text);
+    line-height:1.45;
+  }
+  .s-offer-incl .ik{
+    font-family:var(--font-mono);
+    color:var(--success);
+    font-size:0.86rem;
+    flex:none;
+  }
+  .s-offer-cta{ margin-top:2.2rem; }
+  .s-offer-fine{
+    margin:1.1rem 0 0;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    line-height:1.7;
+  }
+
+  /* ---------- 09 FAQ ---------- */
+  .s-faq{
+    border-top:1px solid var(--border);
+  }
+  .s-faq-item{
+    border-bottom:1px solid var(--border-soft);
+  }
+  .s-faq-item summary{
+    list-style:none;
+    cursor:pointer;
+    padding:1.4rem 2.5rem 1.4rem 0;
+    position:relative;
+    font-size:1.02rem;
+    font-weight:600;
+    letter-spacing:-0.005em;
+    color:var(--text);
+    transition:color 0.25s ease;
+  }
+  .s-faq-item summary::-webkit-details-marker{ display:none; }
+  .s-faq-item summary:hover{ color:var(--accent); }
+  .s-faq-item summary:focus-visible{
+    outline:2px solid var(--text);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+  .s-faq-item summary::after{
+    content:"";
+    position:absolute;
+    right:0.35rem;
+    top:50%;
+    width:11px;height:1px;
+    background:var(--text-faint);
+    transition:background 0.25s ease;
+  }
+  .s-faq-item summary::before{
+    content:"";
+    position:absolute;
+    right:0.35rem;
+    top:50%;
+    width:11px;height:1px;
+    background:var(--text-faint);
+    transform:rotate(90deg);
+    transition:transform 0.35s cubic-bezier(.16,1,.3,1), background 0.25s ease;
+  }
+  .s-faq-item[open] summary::before{ transform:rotate(0deg); }
+  .s-faq-item[open] summary::after,
+  .s-faq-item[open] summary::before{ background:var(--accent); }
+  .s-faq-a{
+    margin:0;
+    padding:0 2.5rem 1.6rem 0;
+    color:var(--text-dim);
+    font-size:0.97rem;
+    line-height:1.65;
+    max-width:62ch;
+  }
+  .s-faq-a + .s-faq-a{ padding-top:0.9rem; }
+
+  /* ---------- 10 FINAL CTA ---------- */
+  .s-final{
+    text-align:center;
+    padding-block:clamp(5rem,13vw,9rem);
+    position:relative;
+    border-top:1px solid var(--border-soft);
+  }
+  .s-final::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    left:50%;
+    top:10%;
+    transform:translateX(-50%);
+    width:min(80vw,700px);
+    height:min(60vw,420px);
+    background:radial-gradient(ellipse, var(--accent-soft) 0%, rgba(255,90,44,0) 70%);
+    pointer-events:none;
+  }
+  .s-final-title{
+    margin:0 auto;
+    font-weight:850;
+    font-size:clamp(2rem,8vw,4.6rem);
+    line-height:1.0;
+    letter-spacing:-0.025em;
+    text-transform:uppercase;
+    max-width:14ch;
+  }
+  .s-final-title .accent{ color:var(--accent); }
+  .s-final-sub{
+    margin:1.6rem auto 0;
+    color:var(--text-dim);
+    font-size:clamp(1rem,0.5vw + 0.9rem,1.12rem);
+    line-height:1.6;
+    max-width:44ch;
+  }
+  .s-final-cta{
+    margin-top:2.5rem;
+    display:flex;
+    justify-content:center;
+  }
+  .s-final-meta{
+    list-style:none;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:0.6rem 0.85rem;
+    margin:1.8rem 0 0;
+    padding:0;
+    font-family:var(--font-mono);
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .s-final-meta li{ display:flex; align-items:center; gap:0.85rem; }
+  .s-final-meta li:not(:last-child)::after{
+    content:"";
+    width:3px;height:3px;border-radius:50%;
+    background:var(--text-faint);
+  }
+
+  /* ---------- footer ---------- */
+  .s-foot{
+    border-top:1px solid var(--border-soft);
+    padding-block:2.25rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.75rem 1.25rem;
+    align-items:center;
+    justify-content:space-between;
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+
+  /* =================================================================
+     RESPONSIVE — mobile-first, enhanced upward
+     ================================================================= */
+  @media (min-width:760px){
+    .s-gap-grid{ grid-template-columns:1fr 1fr; gap:1.25rem; }
+    .s-gap-points{ grid-template-columns:1fr 1fr; column-gap:2.5rem; }
+    .s-ba{ grid-template-columns:1fr auto 1fr; gap:1.25rem; }
+    .s-ba-arrow{ flex-direction:column; padding:0 0.25rem; }
+    .s-ba-arrow svg{ transform:rotate(-90deg); }
+    .s-palette-list{ grid-template-columns:1fr 1fr; }
+    .s-manifest{ grid-template-columns:1fr 1fr; }
+    .s-manifest-row{ border-right:1px solid var(--border-soft); }
+    .s-manifest-row:nth-child(even){ border-right:none; }
+    .s-manifest-row:nth-last-child(-n+2){ border-bottom:none; }
+    .s-who{ grid-template-columns:1.25fr 1fr; gap:1.25rem; }
+    .s-offer-incl{ grid-template-columns:1fr 1fr; gap:0.9rem 1.5rem; }
+    .s-mod{ grid-template-columns:auto 1fr; gap:0.35rem 2rem; }
+    .s-foot{ flex-wrap:nowrap; }
+  }
+
+  @media (min-width:1080px){
+    .s-method{
+      grid-template-columns:repeat(5,1fr);
+      gap:0 1.1rem;
+    }
+    .s-step{
+      padding:2.6rem 0 0 0;
+    }
+    .s-step::before{
+      left:1.9rem;
+      right:-1.1rem;
+      top:7px;
+      bottom:auto;
+      width:auto;
+      height:1px;
+      background:linear-gradient(90deg, var(--accent-soft-2), var(--border));
+    }
+    .s-step:last-child::before{ display:none; }
+    .s-node{ top:0; left:0; }
+    .s-step p{ max-width:none; }
+    .s-mod-desc{ grid-column:2; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .js-reveal [data-reveal]{
+      opacity:1 !important;
+      transform:none !important;
+      transition:none !important;
+    }
+    .s-mod::after{ transition:none; }
+  }
+</style>
+
+<!-- =============== SALES PAGE (below hero) =============== -->
+<div class="sales">
+
+  <!-- ---------- 01 / THE GAP ---------- -->
+  <section class="s-sec s-sec--flush" id="gap">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">01</span><span class="rule"></span><span>THE GAP</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">You use AI. But did anyone ever <span class="accent">teach you how?</span></h2>
+        <p class="s-lede" data-reveal style="--d:.12s">Most people learned AI by typing a question into a box and hoping. That works for trivia. It falls apart the moment the task actually matters — because <strong>the skill was never the typing. It's everything around it.</strong></p>
+      </div>
+
+      <div class="s-gap-grid">
+        <div class="s-prompt" data-reveal>
+          <div class="s-prompt-tag">How most people ask</div>
+          <p class="s-prompt-body"><span class="k">write me a marketing plan</span></p>
+          <div class="s-prompt-out">Result — generic, rewritten three times, still not usable</div>
+        </div>
+        <div class="s-prompt s-prompt--after" data-reveal style="--d:.1s">
+          <div class="s-prompt-tag">How you'll ask</div>
+          <p class="s-prompt-body"><span class="dim">context:</span> <span class="k">B2B tool, 200 users, €0 ad budget</span>
+<span class="dim">task:</span> <span class="k">90-day acquisition plan</span>
+<span class="dim">limits:</span> <span class="k">2 channels max, no paid ads</span>
+<span class="dim">format:</span> <span class="k">table + assumptions + risks</span>
+<span class="dim">check:</span> <span class="k">flag anything you're unsure about</span></p>
+          <div class="s-prompt-out">Result — a first draft you can actually work from</div>
+        </div>
+      </div>
+
+      <div class="s-gap-points">
+        <div class="s-gap-point" data-reveal>
+          <span class="gp-n">01</span>
+          <div>
+            <h3>Context</h3>
+            <p>You know the situation, the constraints and what "good" looks like. The model knows none of it until you say so.</p>
+          </div>
+        </div>
+        <div class="s-gap-point" data-reveal style="--d:.06s">
+          <span class="gp-n">02</span>
+          <div>
+            <h3>Structure</h3>
+            <p>There's a difference between asking a question and writing a brief. One gets you an answer, the other gets you work.</p>
+          </div>
+        </div>
+        <div class="s-gap-point" data-reveal style="--d:.12s">
+          <span class="gp-n">03</span>
+          <div>
+            <h3>Verification</h3>
+            <p>AI sounds equally confident when it's right and when it's wrong. Knowing how to check is part of the skill.</p>
+          </div>
+        </div>
+        <div class="s-gap-point" data-reveal style="--d:.18s">
+          <span class="gp-n">04</span>
+          <div>
+            <h3>Repetition</h3>
+            <p>Most people rebuild the same task from scratch every single time, instead of building it once and reusing it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 02 / BEFORE → AFTER ---------- -->
+  <section class="s-sec" id="shift">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">02</span><span class="rule"></span><span>THE SHIFT</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">Same tools. <span class="accent">Completely different output.</span></h2>
+        <p class="s-lede" data-reveal style="--d:.12s">Nothing here requires a better model or a paid plan. It's how you work with what you already have.</p>
+      </div>
+
+      <div class="s-ba">
+        <div class="s-ba-panel" data-reveal>
+          <p class="s-ba-label">Before the course</p>
+          <ul class="s-ba-list">
+            <li><span class="s-ba-mark">—</span><span>Vague prompts</span></li>
+            <li><span class="s-ba-mark">—</span><span>Generic answers</span></li>
+            <li><span class="s-ba-mark">—</span><span>Constantly correcting the AI</span></li>
+            <li><span class="s-ba-mark">—</span><span>Copying and pasting everything by hand</span></li>
+            <li><span class="s-ba-mark">—</span><span>Unsure whether outputs are trustworthy</span></li>
+            <li><span class="s-ba-mark">—</span><span>No repeatable system</span></li>
+          </ul>
+        </div>
+
+        <div class="s-ba-arrow" aria-hidden="true" data-reveal style="--d:.08s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+
+        <div class="s-ba-panel s-ba-panel--after" data-reveal style="--d:.16s">
+          <p class="s-ba-label">After the course</p>
+          <ul class="s-ba-list">
+            <li><span class="s-ba-mark">&#10003;</span><span>Structured prompts</span></li>
+            <li><span class="s-ba-mark">&#10003;</span><span>Useful context, every time</span></li>
+            <li><span class="s-ba-mark">&#10003;</span><span>Better research</span></li>
+            <li><span class="s-ba-mark">&#10003;</span><span>Faster analysis</span></li>
+            <li><span class="s-ba-mark">&#10003;</span><span>Repeatable workflows</span></li>
+            <li><span class="s-ba-mark">&#10003;</span><span>Knowing when <em>not</em> to trust AI</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 03 / MODULES ---------- -->
+  <section class="s-sec" id="modules">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">03</span><span class="rule"></span><span>WHAT YOU'LL LEARN</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">Six modules. <span class="accent">One system.</span></h2>
+        <p class="s-lede" data-reveal style="--d:.12s">Built in order — each module assumes the one before it. No filler, no theory you'll never use.</p>
+      </div>
+
+      <div class="s-mods">
+        <article class="s-mod" data-reveal>
+          <span class="s-mod-n">01</span>
+          <h3 class="s-mod-name">Understand</h3>
+          <p class="s-mod-desc">How modern AI actually works — and why that changes the way you use it.</p>
+        </article>
+        <article class="s-mod" data-reveal style="--d:.05s">
+          <span class="s-mod-n">02</span>
+          <h3 class="s-mod-name">Prompt</h3>
+          <p class="s-mod-desc">Context, instructions, constraints and structured prompting.</p>
+        </article>
+        <article class="s-mod" data-reveal style="--d:.1s">
+          <span class="s-mod-n">03</span>
+          <h3 class="s-mod-name">Research</h3>
+          <p class="s-mod-desc">Use AI for research while handling sources, uncertainty and hallucinations.</p>
+        </article>
+        <article class="s-mod" data-reveal style="--d:.15s">
+          <span class="s-mod-n">04</span>
+          <h3 class="s-mod-name">Create &amp; Analyse</h3>
+          <p class="s-mod-desc">Writing, summarising, comparing, extracting information and analysing documents.</p>
+        </article>
+        <article class="s-mod" data-reveal style="--d:.2s">
+          <span class="s-mod-n">05</span>
+          <h3 class="s-mod-name">Workflow</h3>
+          <p class="s-mod-desc">Turn tasks you repeat into reusable AI workflows.</p>
+        </article>
+        <article class="s-mod" data-reveal style="--d:.25s">
+          <span class="s-mod-n">06</span>
+          <h3 class="s-mod-name">Advantage</h3>
+          <p class="s-mod-desc">Advanced practical techniques, the common mistakes, and building your own AI system.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 04 / USE CASES ---------- -->
+  <section class="s-sec" id="usecases">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">04</span><span class="rule"></span><span>REAL WORK</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">Things you'll actually <span class="accent">do with it.</span></h2>
+        <p class="s-lede" data-reveal style="--d:.12s">Not demos. The everyday tasks that quietly eat your week.</p>
+      </div>
+
+      <div class="s-palette" data-reveal>
+        <div class="s-palette-bar">
+          <span class="caret">&gt;</span><span class="ph">what do you need to get done?</span><span class="cursor"></span>
+        </div>
+        <ul class="s-palette-list">
+          <li><span class="pc">01</span><span>Research a topic faster</span></li>
+          <li><span class="pc">02</span><span>Summarise long documents</span></li>
+          <li><span class="pc">03</span><span>Compare options side by side</span></li>
+          <li><span class="pc">04</span><span>Analyse information you already have</span></li>
+          <li><span class="pc">05</span><span>Improve your writing</span></li>
+          <li><span class="pc">06</span><span>Prepare for meetings</span></li>
+          <li><span class="pc">07</span><span>Brainstorm with useful constraints</span></li>
+          <li><span class="pc">08</span><span>Turn messy notes into structured output</span></li>
+          <li><span class="pc">09</span><span>Create reusable prompts</span></li>
+          <li><span class="pc">10</span><span>Automate repetitive thinking</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 05 / WHAT YOU GET ---------- -->
+  <section class="s-sec" id="includes">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">05</span><span class="rule"></span><span>WHAT YOU GET</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">Everything, <span class="accent">in one place.</span></h2>
+      </div>
+
+      <div class="s-manifest" data-reveal>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>The full course</h3>
+            <p>The complete programme, start to finish.</p>
+          </div>
+        </div>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>6 modules</h3>
+            <p>Understand, Prompt, Research, Create &amp; Analyse, Workflow, Advantage.</p>
+          </div>
+        </div>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>Practical exercises</h3>
+            <p>You apply each module to your own work, not a toy example.</p>
+          </div>
+        </div>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>The Course Workflow</h3>
+            <p>The repeatable process behind everything in the course.</p>
+          </div>
+        </div>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>50 practical prompts</h3>
+            <p>A working prompt pack you can adapt immediately.</p>
+          </div>
+        </div>
+        <div class="s-manifest-row">
+          <span class="mk">&#10003;</span>
+          <div>
+            <h3>Immediate access after purchase</h3>
+            <p>Start the moment you've paid. Go at your own pace.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 06 / WHO ---------- -->
+  <section class="s-sec" id="who">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">06</span><span class="rule"></span><span>WHO IT'S FOR</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">For people who already use AI — <span class="accent">and want a real system.</span></h2>
+      </div>
+
+      <div class="s-who">
+        <div class="s-who-col s-who-col--for" data-reveal>
+          <p class="s-ba-label">This is for you</p>
+          <ul class="s-who-tags">
+            <li>Professionals</li>
+            <li>Entrepreneurs</li>
+            <li>Freelancers</li>
+            <li>Students</li>
+            <li>Creators</li>
+            <li>Anyone already experimenting with AI</li>
+          </ul>
+        </div>
+
+        <div class="s-who-col s-who-col--not" data-reveal style="--d:.1s">
+          <p class="s-ba-label">Not for you if…</p>
+          <ul class="s-who-list">
+            <li><span class="xk">&times;</span><span>You're expecting instant money</span></li>
+            <li><span class="xk">&times;</span><span>You want your work fully automated for you</span></li>
+            <li><span class="xk">&times;</span><span>You're looking for a magic button</span></li>
+            <li><span class="xk">&times;</span><span>You don't want to practise anything</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 07 / METHOD ---------- -->
+  <section class="s-sec" id="method">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">07</span><span class="rule"></span><span>THE METHOD</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">The <span class="accent">Method.</span></h2>
+        <p class="s-lede" data-reveal style="--d:.12s">Five steps you'll run on every task — until it becomes the way you think.</p>
+      </div>
+
+      <div class="s-method">
+        <div class="s-step" data-reveal>
+          <span class="s-node" aria-hidden="true"></span>
+          <span class="s-step-n">STEP 01</span>
+          <h3>Context</h3>
+          <p>Give the model the situation, constraints and goal before you ask for anything.</p>
+        </div>
+        <div class="s-step" data-reveal style="--d:.07s">
+          <span class="s-node" aria-hidden="true"></span>
+          <span class="s-step-n">STEP 02</span>
+          <h3>Instruct</h3>
+          <p>State the task, the limits and the format you want back. Precisely.</p>
+        </div>
+        <div class="s-step" data-reveal style="--d:.14s">
+          <span class="s-node" aria-hidden="true"></span>
+          <span class="s-step-n">STEP 03</span>
+          <h3>Verify</h3>
+          <p>Check claims, sources and reasoning. Assume nothing because it sounds certain.</p>
+        </div>
+        <div class="s-step" data-reveal style="--d:.21s">
+          <span class="s-node" aria-hidden="true"></span>
+          <span class="s-step-n">STEP 04</span>
+          <h3>Refine</h3>
+          <p>Improve with targeted follow-ups instead of starting over from zero.</p>
+        </div>
+        <div class="s-step" data-reveal style="--d:.28s">
+          <span class="s-node" aria-hidden="true"></span>
+          <span class="s-step-n">STEP 05</span>
+          <h3>Systemise</h3>
+          <p>Save what worked as a reusable workflow, so you never rebuild it again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 08 / OFFER ---------- -->
+  <section class="s-sec" id="offer">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">08</span><span class="rule"></span><span>GET ACCESS</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">One payment. <span class="accent">The whole course.</span></h2>
+      </div>
+
+      <div class="s-offer" data-reveal>
+        <div class="s-offer-top">
+          <h3 class="s-offer-name">Next AI Course</h3>
+          <span class="s-offer-kind">Complete course</span>
+        </div>
+
+        <div class="s-price">
+          <span class="s-price-amt">&euro;39.99</span>
+          <span class="s-price-note">One-time payment</span>
+        </div>
+
+        <ul class="s-offer-incl">
+          <li><span class="ik">&#10003;</span><span>6 modules</span></li>
+          <li><span class="ik">&#10003;</span><span>Practical exercises</span></li>
+          <li><span class="ik">&#10003;</span><span>50-prompt bonus pack</span></li>
+          <li><span class="ik">&#10003;</span><span>The Course Workflow</span></li>
+          <li><span class="ik">&#10003;</span><span>Immediate access after purchase</span></li>
+          <li><span class="ik">&#10003;</span><span>Self-paced — no schedule, no live calls</span></li>
+        </ul>
+
+        <div class="s-offer-cta">
+          <button class="cta" type="button" data-checkout>
+            <span>Build Your AI Advantage</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <p class="s-offer-fine">No subscription &middot; No coding required &middot; Works with the AI tools you already use</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 09 / FAQ ---------- -->
+  <section class="s-sec" id="faq">
+    <div class="s-wrap">
+      <div class="s-head">
+        <p class="s-index" data-reveal><span class="n">09</span><span class="rule"></span><span>QUESTIONS</span></p>
+        <h2 class="s-title" data-reveal style="--d:.06s">Before you <span class="accent">decide.</span></h2>
+      </div>
+
+      <div class="s-faq" data-reveal>
+        <details class="s-faq-item">
+          <summary>Is this for beginners?</summary>
+          <p class="s-faq-a">It's built for people who already use AI casually but were never taught how to use it properly. If you've never opened ChatGPT at all you can still follow along — the course starts with how these models actually work before it asks you to do anything.</p>
+        </details>
+
+        <details class="s-faq-item">
+          <summary>Which AI tools do I need?</summary>
+          <p class="s-faq-a">One general-purpose AI assistant — ChatGPT, Claude or Gemini. A free account is enough to follow the course. Everything you learn is about method, not about a specific product.</p>
+        </details>
+
+        <details class="s-faq-item">
+          <summary>How long does the course take?</summary>
+          <p class="s-faq-a">The core course takes approximately 2 hours to complete. You can follow it at your own pace and return to the material later.</p>
+        </details>
+
+        <details class="s-faq-item">
+          <summary>Is this only about ChatGPT?</summary>
+          <p class="s-faq-a">No. The method works across ChatGPT, Claude, Gemini and whatever replaces them. Tools change constantly; how you give context, verify output and build workflows doesn't.</p>
+        </details>
+
+        <details class="s-faq-item">
+          <summary>Do I need technical or coding experience?</summary>
+          <p class="s-faq-a">None. There's no code anywhere in the course. If you can write an email, you can do everything in it.</p>
+        </details>
+
+        <details class="s-faq-item">
+          <summary>How do I access the course after purchase?</summary>
+          <p class="s-faq-a">After payment, you'll receive instructions to access the course immediately.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 10 / FINAL CTA ---------- -->
+  <section class="s-final">
+    <div class="s-wrap">
+      <h2 class="s-final-title" data-reveal>Don't just use AI. <span class="accent">Know how.</span></h2>
+      <p class="s-final-sub" data-reveal style="--d:.08s">You already have the tools. This is the part nobody taught you.</p>
+      <div class="s-final-cta" data-reveal style="--d:.16s">
+        <button class="cta" type="button" data-checkout>
+          <span>Build Your AI Advantage</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <ul class="s-final-meta" data-reveal style="--d:.24s">
+        <li>&euro;39.99 one-time</li>
+        <li>6 modules</li>
+        <li>No coding</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="s-wrap s-foot">
+    <div class="wordmark"><span class="dot"></span>NEXT AI COURSE</div>
+    <div>&copy; 2026 &middot; All rights reserved</div>
+  </footer>
+
+</div>
+<!-- =============== /SALES PAGE =============== -->
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var body = document.getElementById('consoleBody');
+  var pills = document.querySelectorAll('#consoleSteps .pill');
+
+  var script = [
+    { step:'research', lines:['locating Q3_growth_report.pdf', 'scanning 40 competitor pages'] },
+    { step:'analyse',  lines:['extracting key metrics', 'flagging 3 growth opportunities'] },
+    { step:'automate', lines:['drafting weekly summary', 'building auto-report workflow'] },
+    { step:'deliver',  lines:['scheduling every Monday, 09:00', 'sent to #growth-team ✓'] }
+  ];
+
+  function renderStatic(){
+    body.innerHTML = '';
+    script.forEach(function(block, i){
+      block.lines.forEach(function(text){
+        var line = document.createElement('div');
+        line.className = 'c-line done';
+        line.innerHTML = '<span class="prompt">&gt;</span><span class="txt">'+text+'</span><span class="check">&#10003;</span>';
+        body.appendChild(line);
+      });
+    });
+    pills.forEach(function(p){ p.classList.add('done'); });
+  }
+
+  if (reduced) { renderStatic(); return; }
+
+  var stepIndex = 0, lineIndex = 0, timer = null;
+
+  function setPillState(){
+    pills.forEach(function(p, i){
+      p.classList.toggle('active', i === stepIndex);
+      p.classList.toggle('done', i < stepIndex);
+    });
+  }
+
+  function typeLine(text, el, cb){
+    var i = 0;
+    var cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    el.appendChild(cursor);
+    function step(){
+      if (i <= text.length){
+        el.textContent = text.slice(0, i);
+        el.appendChild(cursor);
+        i++;
+        timer = setTimeout(step, 22 + Math.random()*26);
+      } else {
+        cursor.remove();
+        cb();
+      }
+    }
+    step();
+  }
+
+  function runStep(){
+    if (stepIndex >= script.length){
+      timer = setTimeout(function(){
+        body.innerHTML = '';
+        stepIndex = 0;
+        setPillState();
+        runStep();
+      }, 1800);
+      return;
+    }
+    setPillState();
+    var block = script[stepIndex];
+    lineIndex = 0;
+    runLine(block);
+  }
+
+  function runLine(block){
+    if (lineIndex >= block.lines.length){
+      stepIndex++;
+      timer = setTimeout(runStep, 260);
+      return;
+    }
+    var line = document.createElement('div');
+    line.className = 'c-line';
+    var prompt = document.createElement('span');
+    prompt.className = 'prompt';
+    prompt.textContent = '>';
+    var txt = document.createElement('span');
+    txt.className = 'txt';
+    var check = document.createElement('span');
+    check.className = 'check';
+    check.innerHTML = '&#10003;';
+    line.appendChild(prompt);
+    line.appendChild(txt);
+    line.appendChild(check);
+    body.appendChild(line);
+
+    typeLine(block.lines[lineIndex], txt, function(){
+      line.classList.add('done');
+      lineIndex++;
+      timer = setTimeout(function(){ runLine(block); }, 420);
+    });
+  }
+
+  setPillState();
+  timer = setTimeout(runStep, 900);
+})();
+</script>
+
+<script>
+(function(){
+  var overlay = document.getElementById('introOverlay');
+  if (!overlay) return;
+
+  var particleHost = document.getElementById('introParticles');
+  var count = 14;
+  for (var i = 0; i < count; i++){
+    var p = document.createElement('span');
+    p.className = 'intro-particle';
+    var left = Math.random() * 100;
+    var size = 1.5 + Math.random() * 2.5;
+    var dur = 3.5 + Math.random() * 3.5;
+    var delay = -(Math.random() * dur);
+    p.style.left = left + '%';
+    p.style.top = (10 + Math.random() * 80) + '%';
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.opacity = (0.25 + Math.random() * 0.5).toFixed(2);
+    p.style.animationDuration = dur + 's';
+    p.style.animationDelay = delay + 's';
+    particleHost.appendChild(p);
+  }
+
+  document.body.classList.add('intro-lock');
+
+  var DURATION = 4300;
+  var finished = false;
+  var mainTimer = null;
+
+  function finish(){
+    if (finished) return;
+    finished = true;
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    document.body.classList.remove('intro-lock');
+  }
+
+  function skip(){
+    if (finished) return;
+    clearTimeout(mainTimer);
+    overlay.classList.add('skip');
+    requestAnimationFrame(function(){
+      overlay.style.opacity = '0';
+    });
+    setTimeout(finish, 280);
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  overlay.addEventListener('click', skip);
+  var skipBtn = document.getElementById('introSkip');
+  if (skipBtn){
+    skipBtn.addEventListener('click', function(e){ e.stopPropagation(); skip(); });
+  }
+  window.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') skip();
+  });
+
+  mainTimer = setTimeout(finish, reduced ? 950 : DURATION);
+})();
+</script>
+
+<!-- =============================================================
+     CHECKOUT CONFIGURATION
+     -------------------------------------------------------------
+     >>> PASTE THE STRIPE PAYMENT LINK BELOW. THAT IS THE ONLY EDIT. <<<
+     Every "Build Your AI Advantage" button on the page reads this
+     one value. Leave it as "" and the buttons scroll to the offer
+     section instead (no fake checkout, no dead button).
+     ============================================================= -->
+<script>
+  window.AI_ADVANTAGE = {
+    CHECKOUT_URL: ""   /* e.g. "https://buy.stripe.com/xxxxxxxxxxxx" */
+  };
+</script>
+
+<script>
+/* ---------- CTA wiring: one config, every button ---------- */
+(function(){
+  var cfg = window.AI_ADVANTAGE || {};
+  var url = (cfg.CHECKOUT_URL || '').trim();
+  var buttons = document.querySelectorAll('[data-checkout]');
+  if (!buttons.length) return;
+
+  for (var i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener('click', function(e){
+      e.preventDefault();
+      if (url){
+        window.location.href = url;
+        return;
+      }
+      /* No checkout link configured yet — send the visitor to the
+         offer section rather than doing nothing or faking a purchase. */
+      var offer = document.getElementById('offer');
+      if (!offer) return;
+      try {
+        offer.scrollIntoView({ behavior:'smooth', block:'start' });
+      } catch (err) {
+        offer.scrollIntoView();
+      }
+    });
+  }
+})();
+</script>
+
+<script>
+/* ---------- Scroll reveals ---------- */
+(function(){
+  var els = document.querySelectorAll('[data-reveal]');
+  if (!els.length) return;
+
+  var reduced = window.matchMedia &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Only hide things once we know JS can reveal them again. */
+  if (!('IntersectionObserver' in window) || reduced){
+    return;
+  }
+  document.documentElement.classList.add('js-reveal');
+
+  var io = new IntersectionObserver(function(entries){
+    for (var i = 0; i < entries.length; i++){
+      var entry = entries[i];
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    }
+  }, { rootMargin:'0px 0px -8% 0px', threshold:0.08 });
+
+  for (var i = 0; i < els.length; i++){
+    io.observe(els[i]);
+  }
+})();
+</script>
