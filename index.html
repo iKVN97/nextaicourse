@@ -316,7 +316,7 @@
   .fan-plate-name{ font-size:.72rem; color:var(--ink-dim); margin-top:.15rem; line-height:1.25; text-align:center; }
 
   /* ================= HERO / OPENING ================= */
-  .scene-opening{ height:360vh; }
+  .scene-opening{ height:140vh; } /* was 360vh — pinned hero was staying "stuck" for far too much scroll distance before releasing */
   html.reduced .scene-opening{ height:auto; }
   .opening-sticky{
     position:sticky; top:0; height:100dvh; min-height:34rem;
@@ -342,7 +342,10 @@
   .hero-eyebrow{
     font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
     color:var(--ink-ghost); margin:0 0 .9rem;
-    opacity:0; animation:riseIn .9s var(--ease) 1.7s forwards;
+    /* Reveal choreography compressed from a 1.7s-3.9s cascade (the CTA was
+       opacity:0 for a full 3 seconds on every first visit — the actual
+       cause of the "slow to load" complaint) down to under 0.7s total. */
+    opacity:0; animation:riseIn .45s var(--ease) .05s forwards;
   }
   html.reduced .hero-eyebrow{ animation:none; opacity:1; }
 
@@ -353,20 +356,20 @@
     line-height:.98; font-size:clamp(2.3rem,10vw,5.4rem); color:var(--ink);
     opacity:0; filter:blur(10px); transform:scale(1.03);
   }
-  html:not(.reduced) .hl-line:nth-child(1){ animation:focusIn 1.1s var(--ease-soft) 2.05s forwards; }
-  html:not(.reduced) .hl-line:nth-child(2){ animation:focusIn 1.1s var(--ease-soft) 2.23s forwards; font-style:italic; color:var(--gold); }
+  html:not(.reduced) .hl-line:nth-child(1){ animation:focusIn .55s var(--ease-soft) .12s forwards; }
+  html:not(.reduced) .hl-line:nth-child(2){ animation:focusIn .55s var(--ease-soft) .22s forwards; font-style:italic; color:var(--gold); }
   @keyframes focusIn{ to{ opacity:1; filter:blur(0); transform:none; } }
   html.reduced .hl-line{ opacity:1; filter:none; transform:none; }
 
   .hero-sub{
     color:var(--ink-dim); font-size:1rem; line-height:1.55; margin:0 0 1.7rem;
     max-width:26rem; margin-left:auto; margin-right:auto;
-    opacity:0; animation:riseIn .9s var(--ease) 2.7s forwards;
+    opacity:0; animation:riseIn .45s var(--ease) .32s forwards;
   }
   html.reduced .hero-sub{ animation:none; opacity:1; }
   @keyframes riseIn{ from{ opacity:0; transform:translateY(.5rem); } to{ opacity:1; transform:none; } }
 
-  .hero-cta-wrap{ opacity:0; animation:riseIn .9s var(--ease) 3s forwards; display:flex; flex-direction:column; align-items:center; gap:.75rem; }
+  .hero-cta-wrap{ opacity:0; animation:riseIn .45s var(--ease) .42s forwards; display:flex; flex-direction:column; align-items:center; gap:.75rem; }
   html.reduced .hero-cta-wrap{ animation:none; opacity:1; }
 
   .cta{
@@ -388,7 +391,7 @@
     display:flex; flex-direction:column; align-items:center; gap:.5rem;
     background:none; border:none; cursor:pointer; color:var(--ink-faint);
     font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
-    opacity:0; animation:riseIn .9s var(--ease) 3.3s forwards;
+    opacity:0; animation:riseIn .45s var(--ease) .5s forwards;
   }
   html.reduced .scroll-cue{ display:none; }
   .scroll-cue span{ width:1px; height:1.7rem; background:linear-gradient(var(--ink-faint), transparent); animation:cueMove 2s ease-in-out infinite; }
@@ -564,7 +567,7 @@
   .cta-secondary:hover{ border-color:var(--gold-line); background:var(--gold-wash); }
 
   /* ================= REASSEMBLY ================= */
-  .scene-reassembly{ height:190vh; }
+  .scene-reassembly{ height:140vh; } /* was 190vh — same "stuck scroll" fix as .scene-opening above */
   html.reduced .scene-reassembly{ height:auto; }
   .reassembly-sticky{ position:sticky; top:0; height:100dvh; min-height:30rem; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
   html.reduced .reassembly-sticky{ position:static; height:auto; padding:5rem 0; overflow:visible; }
@@ -1117,11 +1120,19 @@ QUALITY CHECK:
   if (document.documentElement.classList.contains('reduced')) return;
   var obj = document.getElementById('artifactMain');
   if (!obj) return;
+  // Throttled via rAF instead of writing a style property on every single
+  // raw pointermove event (dozens per second) — unnecessary main-thread
+  // work on every mouse move.
+  var pending = false, lastX = 0, lastY = 0;
+  function applyPointer(){
+    pending = false;
+    obj.style.setProperty('--mx', lastX.toFixed(3));
+    obj.style.setProperty('--my', lastY.toFixed(3));
+  }
   window.addEventListener('pointermove', function(e){
-    var mx = (e.clientY / window.innerHeight) - 0.5;
-    var my = (e.clientX / window.innerWidth) - 0.5;
-    obj.style.setProperty('--mx', mx.toFixed(3));
-    obj.style.setProperty('--my', my.toFixed(3));
+    lastX = (e.clientY / window.innerHeight) - 0.5;
+    lastY = (e.clientX / window.innerWidth) - 0.5;
+    if (!pending){ pending = true; requestAnimationFrame(applyPointer); }
   }, { passive:true });
 })();
 </script>
