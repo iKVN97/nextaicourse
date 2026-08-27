@@ -74,7 +74,10 @@
   .topbar{
     position:fixed; top:0; left:0; right:0; z-index:60;
     display:flex; align-items:center; justify-content:space-between;
-    padding:1.1rem 1.4rem;
+    /* Extra top clearance (plus env() for viewport-fit=cover contexts) so the
+       CTA's tap target sits clear of the strip where the OS status bar and
+       Safari's collapsing toolbar contend with the page for touch input. */
+    padding:calc(1.6rem + env(safe-area-inset-top, 0px)) 1.4rem 1.1rem;
     background:linear-gradient(to bottom, rgba(8,9,11,0.88), rgba(8,9,11,0));
     backdrop-filter:blur(6px);
     opacity:0; transform:translateY(-.5rem); visibility:hidden;
@@ -1098,12 +1101,17 @@ QUALITY CHECK:
   var topbar = document.getElementById('topbar');
   var cue = document.getElementById('scrollCue');
   if (topbar){
+    var topbarTicking = false;
     var showTopbar = function(){
+      topbarTicking = false;
       if (window.scrollY > window.innerHeight * 0.55) topbar.classList.add('is-shown');
       else topbar.classList.remove('is-shown');
     };
+    var onTopbarScroll = function(){
+      if (!topbarTicking){ topbarTicking = true; requestAnimationFrame(showTopbar); }
+    };
     if (document.documentElement.classList.contains('reduced')) topbar.classList.add('is-shown');
-    window.addEventListener('scroll', showTopbar, { passive:true });
+    window.addEventListener('scroll', onTopbarScroll, { passive:true });
     showTopbar();
   }
   if (cue){
@@ -1148,20 +1156,35 @@ QUALITY CHECK:
   var lockGlow = document.getElementById('reLockGlow');
   var locked = false;
   var ticking = false;
+  var openingTop = 0, openingTotal = 0, reassemblyTop = 0, reassemblyTotal = 0;
   function clamp01(n){ return Math.max(0, Math.min(1, n)); }
+  // getBoundingClientRect() forces a synchronous layout read; calling it on
+  // every scroll frame (as this used to) is a real source of scroll jank on
+  // real phones. It only needs to run on load/resize — during scroll itself
+  // we just read window.scrollY, which is free.
+  function measure(){
+    var vh = window.innerHeight;
+    var sy = window.scrollY;
+    if (opening){
+      var rect = opening.getBoundingClientRect();
+      openingTop = rect.top + sy;
+      openingTotal = rect.height - vh;
+    }
+    if (reassembly){
+      var rrect = reassembly.getBoundingClientRect();
+      reassemblyTop = rrect.top + sy;
+      reassemblyTotal = rrect.height - vh;
+    }
+  }
   function update(){
     ticking = false;
-    var vh = window.innerHeight;
+    var sy = window.scrollY;
     if (opening && openingSticky){
-      var rect = opening.getBoundingClientRect();
-      var total = rect.height - vh;
-      var p = total > 0 ? clamp01(-rect.top / total) : 0;
+      var p = openingTotal > 0 ? clamp01((sy - openingTop) / openingTotal) : 0;
       openingSticky.style.setProperty('--p', p.toFixed(4));
     }
     if (reassembly && reassemblySticky){
-      var rrect = reassembly.getBoundingClientRect();
-      var rtotal = rrect.height - vh;
-      var rp = rtotal > 0 ? clamp01(-rrect.top / rtotal) : 0;
+      var rp = reassemblyTotal > 0 ? clamp01((sy - reassemblyTop) / reassemblyTotal) : 0;
       reassemblySticky.style.setProperty('--rp', rp.toFixed(4));
       if (lockGlow){
         if (rp > 0.9 && !locked){
@@ -1177,8 +1200,10 @@ QUALITY CHECK:
     }
   }
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+  function onResize(){ measure(); onScroll(); }
   window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', onScroll, { passive:true });
+  window.addEventListener('resize', onResize, { passive:true });
+  measure();
   update();
 })();
 </script>
