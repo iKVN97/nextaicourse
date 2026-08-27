@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <!-- Meta Pixel: loads only after explicit consent — see consent-pixel.js and privacy.html §2 -->
-<script src="consent-pixel.js" defer></script>
+<script src="consent-pixel.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
 <title>Next AI Course — Learn AI. Build With It.</title>
@@ -1245,6 +1245,15 @@ QUALITY CHECK:
       })
       .then(function(data){
         if (!data.url) throw new Error('missing_url');
+        // Genuinely starting checkout: a real Stripe Checkout Session was
+        // just created and we're about to redirect to it. Fires only if
+        // the pixel is already active (consent already granted) — a
+        // synchronous check, not queued, since by the time any later
+        // consent decision could resolve, this tab has already navigated
+        // to Stripe. Never blocks or delays the redirect either way.
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'EUR' });
+        }
         window.location.href = data.url;
       })
       .catch(function(){

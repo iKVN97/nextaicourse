@@ -12,12 +12,27 @@
    - Stored choice is "denied"  -> do nothing at all. No banner, no pixel.
    The choice is stored in localStorage so it persists across visits, not
    just the current tab/session — a returning visitor is never asked twice.
+
+   Public hook for other pages: window.nacOnPixelReady(fn) runs fn once the
+   pixel has actually loaded (consent was already granted, or the visitor
+   just clicked Accept) — and never runs it at all if consent is or becomes
+   "denied". This exists so event tracking added on other pages (checkout,
+   success) can correctly handle the pixel not being ready yet the instant
+   their own code runs, without ever bypassing consent itself.
    ========================================================================== */
 (function () {
   'use strict';
 
   var STORAGE_KEY = 'nac_ad_consent'; // 'granted' | 'denied'
   var PIXEL_ID = '1047030424808416';
+  var pixelReady = false;
+  var readyCallbacks = [];
+
+  window.nacOnPixelReady = function (fn) {
+    if (typeof fn !== 'function') return;
+    if (pixelReady) fn();
+    else readyCallbacks.push(fn);
+  };
 
   function getStoredConsent() {
     try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
@@ -49,6 +64,11 @@
     img.alt = '';
     img.src = 'https://www.facebook.com/tr?id=' + PIXEL_ID + '&ev=PageView&noscript=1';
     document.body.appendChild(img);
+
+    pixelReady = true;
+    var cbs = readyCallbacks;
+    readyCallbacks = [];
+    cbs.forEach(function (fn) { try { fn(); } catch (e) { /* one bad listener must not block others */ } });
   }
 
   function showBanner() {

@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <!-- Meta Pixel: loads only after explicit consent — see consent-pixel.js and privacy.html §2 -->
-<script src="consent-pixel.js" defer></script>
+<script src="consent-pixel.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="/favicon.png" type="image/png">
@@ -138,6 +138,30 @@
     return;
   }
 
+  // Meta Purchase: fires only after this exact same server-side, Stripe-
+  // verified 'paid' status below — never from the URL, never from merely
+  // loading this page. Deduplicated per Stripe session id in localStorage
+  // (durable — survives refresh, revisit, and back/forward) so the same
+  // paid session can never fire a second Purchase event in this browser,
+  // no matter how many times this page is reloaded for it. Uses
+  // nacOnPixelReady so a Purchase that becomes eligible before the visitor
+  // has answered the consent banner still fires the moment they accept —
+  // and never fires at all if they decline or never answer.
+  function firePurchaseOnce(id){
+    var dedupeKey = 'nac_purchase_fired:' + id;
+    var already;
+    try { already = localStorage.getItem(dedupeKey); } catch(e){ already = null; }
+    if (already) return;
+    if (typeof window.nacOnPixelReady !== 'function') return; // consent-pixel.js didn't load — fail closed, no Purchase
+    window.nacOnPixelReady(function(){
+      var stillUnfired;
+      try { stillUnfired = !localStorage.getItem(dedupeKey); } catch(e){ stillUnfired = true; }
+      if (!stillUnfired) return;
+      try { localStorage.setItem(dedupeKey, '1'); } catch(e){ /* private mode — best effort only */ }
+      fbq('track', 'Purchase', { value: 39.99, currency: 'EUR' }, { eventID: 'purchase_' + id });
+    });
+  }
+
   var attempts = 0;
   function poll(){
     attempts++;
@@ -148,6 +172,7 @@
           document.getElementById('paidEmail').textContent = data.email || 'your email address';
           document.getElementById('openCourseLink').href = COURSE_URL;
           show('statePaid');
+          firePurchaseOnce(sessionId);
         } else if (data.status === 'pending' && attempts < 8) {
           setTimeout(poll, 2000);
         } else if (data.status === 'pending') {
