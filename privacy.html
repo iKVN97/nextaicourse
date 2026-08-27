@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.png" type="image/png">
 <title>Privacy Policy — Next AI Course</title>
 <style>
   :root{
@@ -203,13 +205,13 @@
 
 <main class="wrap">
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: 26 August 2026</p>
+  <p class="updated">Last updated: 27 August 2026</p>
   <p class="lede">This policy explains what personal data VK Sales collects in connection with NEXT AI COURSE, why we collect it, and what rights you have over it.</p>
 
   <h2><span class="n">01</span>Who we are</h2>
   <p>VK Sales is the controller responsible for the personal data described in this policy.</p>
   <div class="box"><p class="ident"><b>VK Sales</b><br>
-Eenmanszaak registered in the Netherlands<br>
+Netherlands<br>
 KvK number: <b>88034097</b><br>
 VAT (BTW) number: <b>NL004527571B82</b><br>
 Email: <b><a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a></b><br>
@@ -217,15 +219,20 @@ Telephone (secondary): <b>+31 6 85885124</b></p></div>
 
   <h2><span class="n">02</span>What this website collects</h2>
   <p>This website sets <strong>no cookies</strong> and loads no third-party resources. Nothing you do on this page is tracked or profiled.</p>
+  <p>The homepage uses your browser's <strong>session storage</strong> for one purpose only: remembering, for the current browser tab, that you have already seen the opening animation, so it does not replay if you scroll back to the top. This is never sent to a server, is not used to identify or track you, and disappears when you close the tab. It is not a cookie and does not require consent under applicable law.</p>
   <p><strong>No Meta Pixel, TikTok Pixel, analytics or advertising trackers are currently active.</strong> If we introduce any in future, we will update this policy first and, where the law requires it, ask for your consent before they load.</p>
   <p>The site is hosted on GitHub Pages, a service of GitHub, Inc. As with any web host, GitHub's servers automatically record technical information such as your IP address, browser type and the time of your request, in order to serve the page and protect the service. We do not control those server logs and do not use them to identify you.</p>
+  <p>The "Get access" button on this site calls our own payment backend, hosted on <strong>Cloudflare Workers</strong> (Cloudflare, Inc.), to start a Stripe Checkout session. This is not an analytics, advertising or tracking resource &mdash; it exists solely to create your purchase and cannot be used to identify you before you choose to pay.</p>
 
   <h2><span class="n">03</span>Information collected when you buy</h2>
   <p>Payments are processed by <strong>Stripe</strong>. When you make a purchase, Stripe collects the information needed to take payment &mdash; typically your name, email address, payment details and billing country. <strong>We never receive or store your full card details.</strong></p>
   <p>We receive transaction information from Stripe, such as your name, email address, the amount paid, the date and your country. We use it to give you access to the course, provide support, handle refunds and meet our tax obligations.</p>
 
-  <h2><span class="n">04</span>Course access</h2>
-  <p>The platform we will use to deliver course access has not yet been selected. Before purchases are possible, this policy will be updated to name that provider and explain what it processes. We will not publish claims about delivery technology that is not yet in place.</p>
+  <h2><span class="n">04</span>Course access and access email</h2>
+  <p>After a successful payment, our backend (hosted on Cloudflare Workers, using Cloudflare's KV storage to record your purchase, email address, and an access token identifier) sends you an access email through <strong>Resend</strong>, our transactional email provider. Resend processes your email address and the delivery status of that one message on our behalf &mdash; it does not receive your payment details.</p>
+  <p>The link in that email contains a signed access token used only to open the course &mdash; it does not identify you to any third party and cannot be used to make a purchase. Opening the course app stores that token in your browser's <strong>session storage</strong> (not a cookie) so you don't have to reopen the email every visit; it clears when you close the tab and is never sent anywhere except our own course backend to load your lesson content.</p>
+  <p>If you contact us to cancel/withdraw (see our <a href="refund.html">Refund Policy</a>), we record that request &mdash; your email address, the purchase it relates to, and the date &mdash; to process your refund and meet our recordkeeping obligations.</p>
+  <p>Before payment, when you tick the immediate-delivery consent box at checkout, we record that a consent was given, which exact wording and version you saw, and the timestamp &mdash; linked to your purchase once payment completes. We keep this because the law requires us to be able to show what you agreed to; we do not use it for anything beyond that and beyond ordinary support/tax recordkeeping.</p>
 
   <h2><span class="n">05</span>Why we process your data, and on what legal basis</h2>
   <ul>
@@ -253,7 +260,7 @@ Telephone (secondary): <b>+31 6 85885124</b></p></div>
   <div class="box box--accent">
     <p class="label">Data protection contact</p>
     <p class="ident"><b>VK Sales</b><br>
-Eenmanszaak registered in the Netherlands<br>
+Netherlands<br>
 KvK number: <b>88034097</b><br>
 VAT (BTW) number: <b>NL004527571B82</b><br>
 Email: <b><a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a></b><br>
@@ -270,7 +277,7 @@ Telephone (secondary): <b>+31 6 85885124</b></p>
     <div class="foot-grid">
       <div class="foot-block">
         <p class="label">Seller</p>
-        <p>VK Sales<br>Eenmanszaak &middot; Netherlands<br>KvK 88034097<br>BTW NL004527571B82</p>
+        <p>VK Sales<br>Netherlands<br>KvK 88034097<br>BTW NL004527571B82</p>
       </div>
       <div class="foot-block">
         <p class="label">Contact</p>

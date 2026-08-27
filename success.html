@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>Payment confirmed — Next AI Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,440;9..144,560&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#08090B; --surface:#0E1013; --surface-2:#16181C;
+    --line:rgba(240,235,225,0.09); --line-strong:rgba(240,235,225,0.17);
+    --ink:#F2EDE3; --ink-dim:rgba(242,237,227,0.62); --ink-faint:rgba(242,237,227,0.36);
+    --gold:#C9A868; --gold-hi:#EAD19B; --gold-line:rgba(201,168,104,0.4); --gold-wash:rgba(201,168,104,0.08);
+    --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+    --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ground); color:var(--ink); font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  }
+  .card{
+    max-width:30rem; width:100%; text-align:center;
+    border:1px solid var(--gold-line); border-radius:8px;
+    padding:2.6rem 1.8rem; background:linear-gradient(180deg, rgba(201,168,104,0.06), transparent);
+  }
+  .mark{ width:44px; height:44px; margin:0 auto 1.4rem; }
+  .eyebrow{
+    font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold); margin:0 0 .9rem;
+  }
+  h1{
+    font-family:var(--font-display); font-weight:440; font-size:clamp(1.6rem,5vw,2.1rem);
+    line-height:1.15; margin:0 0 .9rem; letter-spacing:-.01em;
+  }
+  p{ color:var(--ink-dim); font-size:.98rem; line-height:1.6; margin:0 0 1.2rem; }
+  .email-box{
+    border:1px solid var(--line-strong); border-radius:5px; padding:.7rem 1rem;
+    font-size:.9rem; color:var(--ink); margin:0 0 1.6rem; word-break:break-all;
+  }
+  .email-box b{ color:var(--gold-hi); }
+  .cta{
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    background:var(--gold); color:#141005; font-weight:700; font-size:.9rem;
+    padding:.85rem 1.6rem; border-radius:5px; text-decoration:none; width:100%;
+    min-height:52px;
+  }
+  .fine{ font-size:.82rem; color:var(--ink-faint); margin-top:1.4rem; }
+  .fine a{ color:var(--gold); text-decoration:underline; text-underline-offset:2px; }
+  .placeholder-note{
+    margin-top:2rem; padding:.9rem 1rem; border:1px dashed var(--line-strong);
+    border-radius:5px; font-size:.78rem; color:var(--ink-faint); text-align:left;
+  }
+</style>
+
+<div class="card" id="card">
+  <div id="stateVerifying">
+    <svg class="mark spin" viewBox="0 0 44 44" aria-hidden="true">
+      <circle cx="22" cy="22" r="18" fill="none" stroke="#C9A868" stroke-width="3" stroke-linecap="round" stroke-dasharray="80 40"/>
+    </svg>
+    <p class="eyebrow">One moment</p>
+    <h1>Verifying your payment…</h1>
+    <p>Please don't close this page.</p>
+  </div>
+
+  <div id="statePaid" hidden>
+    <svg class="mark" viewBox="0 0 44 44" aria-hidden="true">
+      <circle cx="22" cy="22" r="21" fill="none" stroke="#C9A868" stroke-width="1.4"/>
+      <path d="M13 22.5l6 6 12-13" fill="none" stroke="#EAD19B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="eyebrow">Payment confirmed</p>
+    <h1>Welcome to Next AI Course.</h1>
+    <p>Your access has been sent to the email address you used at checkout.</p>
+    <div class="email-box">Sent to: <b id="paidEmail">your email address</b></div>
+    <a class="cta" id="openCourseLink" href="https://learn.nextaicourse.com/" target="_blank" rel="noopener">Open Next AI Course</a>
+    <p class="fine">Didn't receive it within a few minutes? Check your spam folder, or use <a href="refund.html#recover">access recovery</a> — or contact <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a>.</p>
+  </div>
+
+  <div id="statePending" hidden>
+    <p class="eyebrow">Still confirming</p>
+    <h1>We're still confirming your payment.</h1>
+    <p>This can take a few seconds for some payment methods. This page will update automatically — no need to refresh.</p>
+  </div>
+
+  <div id="stateFailed" hidden>
+    <p class="eyebrow">Not confirmed</p>
+    <h1>We couldn't verify this purchase.</h1>
+    <p>No access has been granted from this page. If you completed a payment and see this message, contact <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a> with your payment confirmation.</p>
+    <a class="cta" href="/">Return to Next AI Course</a>
+  </div>
+</div>
+
+<style>
+  .spin{ animation: nac-spin 1s linear infinite; }
+  @keyframes nac-spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .spin{ animation: none; } }
+</style>
+
+<script>
+(function(){
+  // This page never grants access on its own and never trusts the query
+  // string as proof of payment — it only uses session_id to ask the backend
+  // (which asks Stripe directly, server-side) what actually happened. See
+  // backend/src/routes/verifyCheckout.js. A forged/guessed session_id fails
+  // there, not here.
+  var VERIFY_API = 'https://learn.nextaicourse.com/api/verify-checkout';
+  var COURSE_URL = 'https://learn.nextaicourse.com/';
+
+  function show(id){
+    ['stateVerifying','statePaid','statePending','stateFailed'].forEach(function(s){
+      document.getElementById(s).hidden = (s !== id);
+    });
+  }
+
+  var params = new URLSearchParams(location.search);
+  var sessionId = params.get('session_id');
+
+  if (!sessionId || sessionId.indexOf('cs_') !== 0) {
+    show('stateFailed');
+    return;
+  }
+
+  var attempts = 0;
+  function poll(){
+    attempts++;
+    fetch(VERIFY_API + '?session_id=' + encodeURIComponent(sessionId))
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data.status === 'paid') {
+          document.getElementById('paidEmail').textContent = data.email || 'your email address';
+          document.getElementById('openCourseLink').href = COURSE_URL;
+          show('statePaid');
+        } else if (data.status === 'pending' && attempts < 8) {
+          setTimeout(poll, 2000);
+        } else if (data.status === 'pending') {
+          show('statePending');
+        } else {
+          show('stateFailed');
+        }
+      })
+      .catch(function(){
+        if (attempts < 3) { setTimeout(poll, 2000); return; }
+        show('stateFailed');
+      });
+  }
+  poll();
+})();
+</script>

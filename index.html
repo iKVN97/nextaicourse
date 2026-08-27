@@ -1,8 +1,22 @@
 <!DOCTYPE html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
 <title>Next AI Course — Learn AI. Build With It.</title>
 <meta name="description" content="Learn AI. Build with it. 8 modules, self-paced, 50 practical prompts. €39.99, one-time.">
+<link rel="canonical" href="https://nextaicourse.com/">
+<link rel="icon" href="/favicon.png" type="image/png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Next AI Course">
+<meta property="og:title" content="Next AI Course — Learn AI. Build With It.">
+<meta property="og:description" content="Learn AI. Build with it. 8 modules, self-paced, 50 practical prompts. €39.99, one-time.">
+<meta property="og:url" content="https://nextaicourse.com/">
+<meta property="og:image" content="https://nextaicourse.com/favicon.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Next AI Course — Learn AI. Build With It.">
+<meta name="twitter:description" content="Learn AI. Build with it. 8 modules, self-paced, 50 practical prompts. €39.99, one-time.">
+<meta name="twitter:image" content="https://nextaicourse.com/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,440;9..144,560&display=swap" rel="stylesheet">
@@ -74,10 +88,7 @@
   .topbar{
     position:fixed; top:0; left:0; right:0; z-index:60;
     display:flex; align-items:center; justify-content:space-between;
-    /* Extra top clearance (plus env() for viewport-fit=cover contexts) so the
-       CTA's tap target sits clear of the strip where the OS status bar and
-       Safari's collapsing toolbar contend with the page for touch input. */
-    padding:calc(1.6rem + env(safe-area-inset-top, 0px)) 1.4rem 1.1rem;
+    padding:1.1rem 1.4rem;
     background:linear-gradient(to bottom, rgba(8,9,11,0.88), rgba(8,9,11,0));
     backdrop-filter:blur(6px);
     opacity:0; transform:translateY(-.5rem); visibility:hidden;
@@ -90,7 +101,6 @@
     background:transparent; color:var(--ink); border:1px solid var(--line-strong);
     padding:.6rem 1.05rem; font-weight:600; font-size:.76rem; letter-spacing:.02em;
     cursor:pointer; min-height:44px; display:inline-flex; align-items:center; gap:.5rem;
-    text-decoration:none;
     transition:border-color .3s var(--ease-ui), background .3s var(--ease-ui);
   }
   .topbar-cta:hover{ border-color:var(--gold-line); background:var(--gold-wash); }
@@ -320,7 +330,7 @@
   .fan-plate-name{ font-size:.72rem; color:var(--ink-dim); margin-top:.15rem; line-height:1.25; text-align:center; }
 
   /* ================= HERO / OPENING ================= */
-  .scene-opening{ height:140vh; } /* was 360vh — pinned hero was staying "stuck" for far too much scroll distance before releasing */
+  .scene-opening{ height:140vh; } /* was 360vh, then 200vh — further compressed: the pinned track still felt "stuck" at 200vh (real complaint, verified against the actual scroll-progress code, not the animation-delay fix above which addressed a separate issue) */
   html.reduced .scene-opening{ height:auto; }
   .opening-sticky{
     position:sticky; top:0; height:100dvh; min-height:34rem;
@@ -346,9 +356,12 @@
   .hero-eyebrow{
     font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
     color:var(--ink-ghost); margin:0 0 .9rem;
-    /* Reveal choreography compressed from a 1.7s-3.9s cascade (the CTA was
-       opacity:0 for a full 3 seconds on every first visit — the actual
-       cause of the "slow to load" complaint) down to under 0.7s total. */
+    /* Reveal choreography compressed from a 1.7s-3.9s cascade (measured as
+       the actual cause of the "slow to load / must wait" complaint — the
+       CTA was opacity:0 for a full 3 seconds on every first visit) down to
+       under 0.7s total, so the CTA is visible and usable almost
+       immediately. Timing is kept staggered, not instant, to preserve the
+       intended premium feel — see IMPLEMENTATION notes on this pass. */
     opacity:0; animation:riseIn .45s var(--ease) .05s forwards;
   }
   html.reduced .hero-eyebrow{ animation:none; opacity:1; }
@@ -379,7 +392,6 @@
   .cta{
     border:none; cursor:pointer; font-weight:600;
     display:inline-flex; align-items:center; gap:.7rem;
-    text-decoration:none;
     transition:transform .45s var(--ease-ui), box-shadow .45s var(--ease-ui), border-color .3s var(--ease-ui), background .3s var(--ease-ui);
   }
   .cta-primary{
@@ -409,13 +421,6 @@
     padding:0 1.3rem; text-align:center; margin:0 auto;
     opacity:clamp(0, calc((var(--p,0) - 0.38) * 4), 1);
     transform:translateY(calc((1 - clamp(0, calc((var(--p,0) - 0.38) * 4), 1)) * 1.4rem));
-    /* .copy-stack stacks .hero-copy and .os-layer in the same grid cell for
-       the crossfade; being later in DOM order, .os-layer painted (and
-       hit-tested) on top of .hero-copy at ALL times, including while fully
-       transparent — silently swallowing every click/tap on the hero "Get
-       access" button underneath it. .os-layer has no interactive content
-       (text only), so it never needs to receive pointer input. */
-    pointer-events:none;
   }
   html.reduced .os-layer{ opacity:1; transform:none; padding:3.5rem 1.3rem 0; }
   .os-eyebrow{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-ghost); margin:0 0 .8rem; }
@@ -618,8 +623,9 @@
   .final-trust{ list-style:none; margin:2rem 0 0; padding:1.3rem 0 0; border-top:1px solid var(--line-faint); display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; justify-content:center; font-size:.78rem; color:var(--ink-faint); }
 
   footer{ padding:3.5rem 0 3rem; text-align:center; }
-  .foot-word{ display:flex; align-items:center; justify-content:center; gap:.5rem; font-family:var(--font-display); font-size:1rem; margin-bottom:1.2rem; }
+  .foot-word{ display:flex; align-items:center; justify-content:center; gap:.5rem; font-family:var(--font-display); font-size:1rem; margin-bottom:.6rem; }
   .foot-word .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); }
+  .foot-tag{ color:var(--ink-faint); font-size:.82rem; margin:0 0 1.6rem; }
   .foot-links{ display:flex; justify-content:center; gap:1.4rem; margin-bottom:1.1rem; flex-wrap:wrap; }
   .foot-links a{ color:var(--ink-dim); text-decoration:none; font-size:.82rem; }
   .foot-links a:hover{ color:var(--ink); }
@@ -647,7 +653,7 @@
 
 <header class="topbar" id="topbar">
   <div class="topbar-word"><span class="dot"></span>Next AI Course</div>
-  <a class="topbar-cta" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>Get access <span class="p">€39.99</span></a>
+  <button class="topbar-cta" type="button" data-checkout>Get access <span class="p">€39.99</span></button>
 </header>
 
 <main id="main">
@@ -696,9 +702,9 @@
           </h1>
           <p class="hero-sub">The complete, practical system for learning AI and building real things with it.</p>
           <div class="hero-cta-wrap">
-            <a class="cta cta-primary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>
+            <button class="cta cta-primary" type="button" data-checkout>
               <span>Get access</span><span class="cta-price">€39.99</span>
-            </a>
+            </button>
             <p class="hero-fine">One-time payment · Instant access</p>
           </div>
         </div>
@@ -874,9 +880,9 @@ QUALITY CHECK:
   <div class="mid-cta" data-reveal>
     <div class="wrap">
       <p>You've seen what it builds.</p>
-      <a class="cta cta-secondary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>
+      <button class="cta cta-secondary" type="button" data-checkout>
         <span>Get access</span><span class="cta-price">€39.99</span>
-      </a>
+      </button>
     </div>
   </div>
 
@@ -995,29 +1001,251 @@ QUALITY CHECK:
       <ul class="final-stats"><li>8 modules</li><li>Self-paced</li><li>50 practical prompts</li></ul>
       <p class="final-price">€39.99</p>
       <p class="final-price-note">One-time payment</p>
-      <a class="cta cta-primary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout style="width:100%; max-width:22rem; justify-content:center;">
+      <button class="cta cta-primary" type="button" data-checkout style="width:100%; max-width:22rem; justify-content:center;">
         <span>Get access</span><span class="cta-price">€39.99</span>
-      </a>
+      </button>
       <ul class="final-trust"><li>Secure checkout</li><li>Support available</li></ul>
     </div>
   </section>
 
   <footer class="wrap">
     <div class="foot-word"><span class="dot"></span>Next AI Course</div>
+    <p class="foot-tag">Practical AI education for people who want to build with AI.</p>
     <nav class="foot-links">
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
       <a href="refund.html">Refund</a>
-      <a href="mailto:support@nextaicourse.com">Contact</a>
+      <a href="mailto:support@nextaicourse.com">Support</a>
+      <a href="terms.html#business-info">Business Information</a>
     </nav>
-    <div class="biz">VK Sales &middot; KvK 88034097 &middot; &copy; 2026</div>
+    <div class="biz">&copy; 2026 Next AI Course&trade;</div>
   </footer>
 
 </main>
 
-<!-- All "Get access" CTAs above are now plain <a href="https://buy.stripe.com/...">
-     links to the live Stripe Payment Link — no JS is required for checkout
-     to open; it works even if a script errors or is blocked. -->
+<!--
+  Pre-checkout consent step. Required before a Checkout Session can be
+  created at all — see backend/src/routes/checkout.js, which rejects any
+  request without a valid, unexpired, unused consentId from
+  POST /api/consent. That endpoint itself requires BOTH boxes below to be
+  ticked (`accepted: true` and `termsAccepted: true`) before it will mint a
+  consentId at all, so checkout is impossible without both — this is
+  server-side enforcement, not just a disabled button. The exact wording
+  below is mirrored from (and must stay identical to)
+  backend/src/lib/consentText.js — that file is the source of truth for
+  what's actually recorded as evidence; update both together. See
+  IMPLEMENTATION.md "Immediate-digital-delivery consent".
+-->
+<div id="consentOverlay" class="consent-overlay" hidden>
+  <div class="consent-modal" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
+    <button type="button" class="consent-close" id="consentClose" aria-label="Close">&times;</button>
+    <p class="consent-eyebrow" id="consentTitle">Next AI Course</p>
+    <p class="consent-price">&euro;39.99 <span>one-time payment</span></p>
+    <p class="consent-instant">Instant digital access after payment.</p>
+
+    <label class="consent-checkbox-row">
+      <input type="checkbox" id="termsCheckbox">
+      <span>I agree to the <a href="terms.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">Privacy Policy</a>.</span>
+    </label>
+
+    <label class="consent-checkbox-row">
+      <input type="checkbox" id="consentCheckbox">
+      <span>I expressly ask for my Next AI Course access to begin immediately, and I understand that once it does, I lose my 14-day right to cancel this purchase for a change of mind.</span>
+    </label>
+    <p class="consent-learnmore"><a href="terms.html#withdrawal-right" target="_blank" rel="noopener">What does this mean for my rights?</a></p>
+
+    <button type="button" class="cta cta-primary consent-continue" id="consentContinue" disabled style="width:100%; justify-content:center;">
+      Continue to secure checkout
+    </button>
+    <p class="consent-error" id="consentError" role="alert" hidden></p>
+  </div>
+</div>
+
+<style>
+  .consent-overlay{
+    position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+    background:rgba(4,5,6,0.72); padding:1.2rem; backdrop-filter: blur(3px);
+  }
+  /* CRITICAL: author CSS with display:flex above overrides the browser's
+     default [hidden]{display:none} rule at equal specificity, meaning the
+     `hidden` attribute alone did NOT actually hide this modal — it was
+     permanently covering the homepage regardless of open/closed state.
+     Found during this pass's hero verification, unrelated to the hero
+     changes themselves. This rule restores the expected behavior. */
+  .consent-overlay[hidden]{ display:none; }
+  .consent-modal{
+    max-width:26rem; width:100%; background:var(--surface-2,#16181C); border:1px solid var(--gold-line,rgba(201,168,104,0.4));
+    border-radius:10px; padding:1.8rem 1.6rem 1.6rem; position:relative;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .consent-close{
+    position:absolute; top:.7rem; right:.8rem; background:none; border:none; color:var(--ink-faint,rgba(242,237,227,0.36));
+    font-size:1.4rem; line-height:1; cursor:pointer; padding:.3rem .5rem;
+  }
+  .consent-close:hover{ color:var(--ink,#F2EDE3); }
+  .consent-eyebrow{
+    font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold,#C9A868); margin:0 0 .6rem;
+  }
+  .consent-price{ font-family:var(--font-display,serif); font-size:1.6rem; color:var(--ink,#F2EDE3); margin:0 0 .3rem; }
+  .consent-price span{ font-size:.85rem; font-family:var(--font-body,sans-serif); color:var(--ink-dim,rgba(242,237,227,0.62)); font-weight:400; }
+  .consent-instant{ font-size:.9rem; color:var(--ink-dim,rgba(242,237,227,0.62)); margin:0 0 1.3rem; }
+  .consent-checkbox-row{
+    display:flex; align-items:flex-start; gap:.7rem; cursor:pointer; margin:0 0 .5rem;
+    padding:.9rem; border:1px solid var(--line-strong,rgba(240,235,225,0.17)); border-radius:7px; background:var(--surface,#0E1013);
+  }
+  .consent-checkbox-row input{ margin-top:.2rem; width:1.05rem; height:1.05rem; accent-color:var(--gold,#C9A868); flex-shrink:0; }
+  .consent-checkbox-row span{ font-size:.86rem; line-height:1.5; color:var(--ink,#F2EDE3); }
+  .consent-checkbox-row span a{ color:var(--gold,#C9A868); text-decoration:underline; text-underline-offset:2px; }
+  .consent-checkbox-row span a:hover{ color:var(--ink,#F2EDE3); }
+  .consent-checkbox-row + .consent-checkbox-row{ margin-top:.7rem; }
+  .consent-learnmore{ margin:0 0 1.3rem; }
+  .consent-learnmore a{ font-size:.78rem; color:var(--ink-faint,rgba(242,237,227,0.36)); text-decoration:underline; text-underline-offset:2px; }
+  .consent-continue:disabled{ opacity:.4; cursor:not-allowed; }
+  .consent-error{ margin:.8rem 0 0; font-size:.85rem; color:#D9A441; text-align:center; }
+</style>
+
+<script>
+  // The backend (a Cloudflare Worker — see /backend) owns the Stripe Price
+  // id and the consent record; nothing here can influence the amount
+  // charged or fabricate a consent. There is no static Stripe Payment Link
+  // left active anywhere on this page — every [data-checkout] button opens
+  // the same consent modal, which drives the same two calls below.
+  window.AI_ADVANTAGE = {
+    CONSENT_API: "https://learn.nextaicourse.com/api/consent",
+    CHECKOUT_API: "https://learn.nextaicourse.com/api/checkout"
+  };
+</script>
+
+<script>
+(function(){
+  var cfg = window.AI_ADVANTAGE || {};
+  var consentApi = (cfg.CONSENT_API || '').trim();
+  var checkoutApi = (cfg.CHECKOUT_API || '').trim();
+  var buttons = document.querySelectorAll('[data-checkout]');
+  if (!buttons.length) return;
+
+  // Ad/campaign attribution: capture utm_* from the landing URL once, keep
+  // it for the rest of this tab's visit (sessionStorage, same pattern as
+  // noc_intro_seen below), and forward it with the checkout call so the
+  // sale is traceable to the campaign in the Stripe Dashboard. Read-only
+  // passthrough — never used to influence price, product or consent.
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  var UTM_STORAGE_KEY = 'nac_utm';
+  (function captureUtm(){
+    try {
+      var params = new URLSearchParams(location.search);
+      var found = {};
+      var has = false;
+      UTM_KEYS.forEach(function(k){
+        var v = params.get(k);
+        if (v) { found[k] = v; has = true; }
+      });
+      if (has) sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(found));
+    } catch(e){ /* private mode — attribution simply isn't sent */ }
+  })();
+  function getStoredUtm(){
+    try {
+      var raw = sessionStorage.getItem(UTM_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(e){ return {}; }
+  }
+
+  var overlay = document.getElementById('consentOverlay');
+  var checkbox = document.getElementById('consentCheckbox');
+  var termsCheckbox = document.getElementById('termsCheckbox');
+  var continueBtn = document.getElementById('consentContinue');
+  var closeBtn = document.getElementById('consentClose');
+  var errorEl = document.getElementById('consentError');
+  var lastFocused = null;
+
+  function bothChecked(){
+    return checkbox.checked && termsCheckbox.checked;
+  }
+
+  function openModal(){
+    lastFocused = document.activeElement;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    checkbox.checked = false;
+    termsCheckbox.checked = false;
+    continueBtn.disabled = true;
+    errorEl.hidden = true;
+    termsCheckbox.focus();
+  }
+  function closeModal(){
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  function onCheckboxChange(){
+    continueBtn.disabled = !bothChecked();
+  }
+  checkbox.addEventListener('change', onCheckboxChange);
+  termsCheckbox.addEventListener('change', onCheckboxChange);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !overlay.hidden) closeModal(); });
+
+  function showError(message){
+    errorEl.textContent = message;
+    errorEl.hidden = false;
+  }
+
+  function setContinueLoading(loading){
+    continueBtn.disabled = loading || !bothChecked();
+    continueBtn.textContent = loading ? 'Redirecting to checkout…' : 'Continue to secure checkout';
+  }
+
+  continueBtn.addEventListener('click', function(){
+    if (!bothChecked()) return;
+    if (!consentApi || !checkoutApi) { showError("Checkout isn't available right now — please email support@nextaicourse.com."); return; }
+
+    errorEl.hidden = true;
+    setContinueLoading(true);
+
+    // `accepted: true` and `termsAccepted: true` are the explicit
+    // acknowledgements that the two standalone, non-pre-ticked boxes above
+    // were both actively ticked. The backend rejects the call without
+    // either one; wording/version stay server-owned.
+    fetch(consentApi, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accepted: true, termsAccepted: true })
+    })
+      .then(function(res){ if (!res.ok) throw new Error('consent_failed'); return res.json(); })
+      .then(function(consentData){
+        var checkoutBody = { consentId: consentData.consentId };
+        var utm = getStoredUtm();
+        for (var k in utm) { if (utm.hasOwnProperty(k)) checkoutBody[k] = utm[k]; }
+        return fetch(checkoutApi, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(checkoutBody)
+        });
+      })
+      .then(function(res){
+        if (!res.ok) throw new Error('checkout_failed');
+        return res.json();
+      })
+      .then(function(data){
+        if (!data.url) throw new Error('missing_url');
+        window.location.href = data.url;
+      })
+      .catch(function(){
+        setContinueLoading(false);
+        showError("Couldn't start checkout — please try again, or email support@nextaicourse.com.");
+      });
+  });
+
+  for (var i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener('click', function(e){
+      e.preventDefault();
+      openModal();
+    });
+  }
+})();
+</script>
 
 <script>
 (function(){
@@ -1091,17 +1319,12 @@ QUALITY CHECK:
   var topbar = document.getElementById('topbar');
   var cue = document.getElementById('scrollCue');
   if (topbar){
-    var topbarTicking = false;
     var showTopbar = function(){
-      topbarTicking = false;
       if (window.scrollY > window.innerHeight * 0.55) topbar.classList.add('is-shown');
       else topbar.classList.remove('is-shown');
     };
-    var onTopbarScroll = function(){
-      if (!topbarTicking){ topbarTicking = true; requestAnimationFrame(showTopbar); }
-    };
     if (document.documentElement.classList.contains('reduced')) topbar.classList.add('is-shown');
-    window.addEventListener('scroll', onTopbarScroll, { passive:true });
+    window.addEventListener('scroll', showTopbar, { passive:true });
     showTopbar();
   }
   if (cue){
@@ -1118,9 +1341,10 @@ QUALITY CHECK:
   if (document.documentElement.classList.contains('reduced')) return;
   var obj = document.getElementById('artifactMain');
   if (!obj) return;
-  // Throttled via rAF instead of writing a style property on every single
-  // raw pointermove event (dozens per second) — unnecessary main-thread
-  // work on every mouse move.
+  // Throttled via rAF — this used to run a style write on every single raw
+  // pointermove event (dozens per second), unlike the scroll handler
+  // elsewhere on this page which already batches correctly. Unnecessary
+  // main-thread work on every mouse move, now fixed to match that pattern.
   var pending = false, lastX = 0, lastY = 0;
   function applyPointer(){
     pending = false;
@@ -1146,35 +1370,20 @@ QUALITY CHECK:
   var lockGlow = document.getElementById('reLockGlow');
   var locked = false;
   var ticking = false;
-  var openingTop = 0, openingTotal = 0, reassemblyTop = 0, reassemblyTotal = 0;
   function clamp01(n){ return Math.max(0, Math.min(1, n)); }
-  // getBoundingClientRect() forces a synchronous layout read; calling it on
-  // every scroll frame (as this used to) is a real source of scroll jank on
-  // real phones. It only needs to run on load/resize — during scroll itself
-  // we just read window.scrollY, which is free.
-  function measure(){
-    var vh = window.innerHeight;
-    var sy = window.scrollY;
-    if (opening){
-      var rect = opening.getBoundingClientRect();
-      openingTop = rect.top + sy;
-      openingTotal = rect.height - vh;
-    }
-    if (reassembly){
-      var rrect = reassembly.getBoundingClientRect();
-      reassemblyTop = rrect.top + sy;
-      reassemblyTotal = rrect.height - vh;
-    }
-  }
   function update(){
     ticking = false;
-    var sy = window.scrollY;
+    var vh = window.innerHeight;
     if (opening && openingSticky){
-      var p = openingTotal > 0 ? clamp01((sy - openingTop) / openingTotal) : 0;
+      var rect = opening.getBoundingClientRect();
+      var total = rect.height - vh;
+      var p = total > 0 ? clamp01(-rect.top / total) : 0;
       openingSticky.style.setProperty('--p', p.toFixed(4));
     }
     if (reassembly && reassemblySticky){
-      var rp = reassemblyTotal > 0 ? clamp01((sy - reassemblyTop) / reassemblyTotal) : 0;
+      var rrect = reassembly.getBoundingClientRect();
+      var rtotal = rrect.height - vh;
+      var rp = rtotal > 0 ? clamp01(-rrect.top / rtotal) : 0;
       reassemblySticky.style.setProperty('--rp', rp.toFixed(4));
       if (lockGlow){
         if (rp > 0.9 && !locked){
@@ -1190,10 +1399,8 @@ QUALITY CHECK:
     }
   }
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
-  function onResize(){ measure(); onScroll(); }
   window.addEventListener('scroll', onScroll, { passive:true });
-  window.addEventListener('resize', onResize, { passive:true });
-  measure();
+  window.addEventListener('resize', onScroll, { passive:true });
   update();
 })();
 </script>

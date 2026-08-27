@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>Payment not completed — Next AI Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,440;9..144,560&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#08090B; --surface:#0E1013;
+    --line:rgba(240,235,225,0.09); --line-strong:rgba(240,235,225,0.17);
+    --ink:#F2EDE3; --ink-dim:rgba(242,237,227,0.62); --ink-faint:rgba(242,237,227,0.36);
+    --gold:#C9A868; --gold-hi:#EAD19B; --gold-line:rgba(201,168,104,0.4);
+    --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+    --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ground); color:var(--ink); font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  }
+  .card{
+    max-width:28rem; width:100%; text-align:center;
+    border:1px solid var(--line-strong); border-radius:8px;
+    padding:2.6rem 1.8rem; background:var(--surface);
+  }
+  .eyebrow{
+    font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 .9rem;
+  }
+  h1{
+    font-family:var(--font-display); font-weight:440; font-size:clamp(1.5rem,4.5vw,1.9rem);
+    line-height:1.2; margin:0 0 .9rem; letter-spacing:-.01em;
+  }
+  p{ color:var(--ink-dim); font-size:.96rem; line-height:1.6; margin:0 0 1.4rem; }
+  .cta{
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    border:1px solid var(--gold-line); color:var(--gold-hi); font-weight:600; font-size:.88rem;
+    padding:.8rem 1.5rem; border-radius:5px; text-decoration:none; width:100%; min-height:50px;
+  }
+  .fine{ font-size:.8rem; color:var(--ink-faint); margin-top:1.3rem; }
+  .fine a{ color:var(--gold); text-decoration:underline; text-underline-offset:2px; }
+</style>
+
+<div class="card">
+  <p class="eyebrow">Payment not completed</p>
+  <h1>Your payment wasn't completed.</h1>
+  <p>No charge has been made. Nothing was taken from your card and no access was created.</p>
+  <a class="cta" href="/">Return to Next AI Course</a>
+  <p class="fine">Ran into a problem, or changed your mind about something on the page? Email <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a> — we're happy to help.</p>
+</div>

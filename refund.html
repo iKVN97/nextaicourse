@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.png" type="image/png">
 <title>Refund Policy — Next AI Course</title>
 <style>
   :root{
@@ -203,48 +205,88 @@
 
 <main class="wrap">
   <h1>Refund Policy</h1>
-  <p class="updated">Last updated: 26 August 2026</p>
-  <p class="lede">How refunds work when you buy NEXT AI COURSE from VK Sales, and how this sits alongside your statutory rights.</p>
+  <p class="updated">Last updated: 27 August 2026</p>
+  <p class="lede">NEXT AI COURSE is digital content that unlocks in full the moment your payment is confirmed. This page explains what that means for returns, and what you are always entitled to regardless.</p>
 
   <div class="box box--accent">
     <p class="label">In short</p>
-    <p><strong>14 days. Full refund. No reason needed.</strong> If NEXT AI COURSE is not right for you, tell us within 14 days of your purchase and we will refund the full &euro;39.99.</p>
+    <p>NEXT AI COURSE is delivered as immediate digital access. There is <strong>no free trial and no voluntary "money-back guarantee"</strong> &mdash; it is not designed to be taken for a couple of weeks and handed back. At checkout you expressly ask for that immediate access and acknowledge that, once it begins, your 14-day change-of-mind right of withdrawal no longer applies to this purchase. What does <em>not</em> go away: your mandatory rights if a charge is wrong, access never works, or the course does not conform to what was described &mdash; see section 4.</p>
   </div>
 
-  <h2><span class="n">01</span>Our voluntary 14-day refund</h2>
-  <p>VK Sales offers a voluntary refund period of <strong>14 days from the date of purchase</strong>. Within that period you can request a full refund of the &euro;39.99 you paid, without giving a reason.</p>
-  <p>This applies even if you have already started or completed the course.</p>
+  <h2><span class="n">01</span>No trial, no change-of-mind refund</h2>
+  <p>VK Sales does not offer a satisfaction guarantee, a trial period, or a "use it and send it back" policy for this course. The entire course &mdash; every module, lesson and prompt &mdash; is available to you within seconds of payment, so there is nothing held back to return. Once you have given the checkout consent described in section 2 and your access has started, we will not refund the &euro;39.99 simply because you have changed your mind or decided you no longer need it.</p>
+  <p>This is not "no refunds under any circumstances". Section 4 lists the situations we always put right, on their own merits, with no deadline tied to your purchase date.</p>
 
-  <h2><span class="n">02</span>Your statutory right of withdrawal</h2>
-  <p>Separately from our voluntary policy, EU and Dutch consumer law gives you a statutory <strong>14-day right of withdrawal</strong> on distance purchases.</p>
-  <p>For digital content, that right can be lost only if you expressly consent to immediate delivery <em>and</em> acknowledge losing the right. <strong>We do not ask you to do either, so your statutory right of withdrawal remains intact.</strong></p>
-  <p>Our voluntary policy sits alongside your statutory rights. <strong>It does not replace or limit them.</strong></p>
-
-  <h2><span class="n">03</span>How to request a refund</h2>
-  <p>Email us at <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a> within 14 days of your purchase and tell us you want a refund. You can also call us on the number below. Please include:</p>
+  <h2><span class="n">02</span>Immediate access and the right of withdrawal</h2>
+  <p>A distance purchase like this one would normally carry a statutory <strong>14-day right of withdrawal</strong> &mdash; the right to cancel within 14 days without giving a reason. For digital content that is supplied immediately rather than on a disc or other tangible medium, the law (Consumer Rights Directive 2011/83/EU Art. 16(m), implemented in the Netherlands in Book 6 of the Burgerlijk Wetboek) lets that right end as soon as supply begins, <em>provided</em> the consumer has first, before supply starts:</p>
   <ul>
-    <li>the name used for the purchase;</li>
-    <li>the date of purchase;</li>
-    <li>the payment reference from your Stripe receipt.</li>
+    <li>expressly requested that supply begin immediately, during the 14-day period; and</li>
+    <li>expressly acknowledged that doing so means the right of withdrawal is lost once supply has begun.</li>
   </ul>
+  <p><strong>Our checkout collects exactly those two things</strong>, in one plain-language statement you must actively tick &mdash; it is never pre-selected, and you cannot pay without it. When you tick it and complete payment, your access begins immediately and your 14-day change-of-mind right of withdrawal ends at that point. We record the exact wording and version you agreed to and repeat it in your access email; that email, with this page, is your confirmation on a durable medium.</p>
+  <p>If a particular purchase was made without that consent being validly recorded &mdash; for example a technical fault on our side &mdash; then the statutory 14-day right of withdrawal was never given up and stays fully intact for that purchase: tell us within 14 days using the form below and we refund the &euro;39.99 in full, no reason needed. We do not decide this against you; we check the record and tell you honestly which case applies.</p>
+
+  <h2><span class="n">03</span>Report a problem, or ask us about a refund</h2>
+  <p>Use the form below — enter the email you bought with and tell us what happened. A person reads and answers it; there is no automated yes/no. If your purchase was one of the rare ones that kept the statutory withdrawal right (section 2, last paragraph), we process the refund. Otherwise we tell you that the change-of-mind window does not apply, and check whether one of the always-available situations in section 4 fits instead.</p>
+
+  <div id="recover" class="box" style="text-align:left;">
+    <p class="ident" style="margin:0 0 .6rem;"><b>Report a problem / request a refund review</b></p>
+    <form id="withdrawForm" style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:flex-start;">
+      <input id="withdrawEmail" type="email" required placeholder="you@example.com" autocomplete="email"
+        style="flex:1;min-width:14rem;padding:.65rem .8rem;border-radius:5px;border:1px solid rgba(0,0,0,.2);font-size:.95rem;">
+      <button type="submit" style="padding:.65rem 1.2rem;border-radius:5px;border:none;background:#141005;color:#EAD19B;font-weight:700;cursor:pointer;">Send request</button>
+    </form>
+    <p id="withdrawStatus" style="margin:.7rem 0 0;font-size:.88rem;"></p>
+  </div>
+  <script>
+  (function(){
+    var form = document.getElementById('withdrawForm');
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = document.getElementById('withdrawEmail').value.trim();
+      var status = document.getElementById('withdrawStatus');
+      status.textContent = 'Sending…';
+      fetch('https://learn.nextaicourse.com/api/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+        .then(function(res){ return res.json(); })
+        .then(function(data){ status.textContent = data.message || "If we have a matching purchase, we've emailed you a response."; })
+        .catch(function(){ status.textContent = 'Something went wrong — please email support@nextaicourse.com instead.'; });
+    });
+  })();
+  </script>
+
+  <p>Prefer email? You can also write to <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a> with the name and email address used for the purchase, the date of purchase, and the payment reference from your Stripe receipt.</p>
   <div class="box"><p class="ident"><b>VK Sales</b><br>
-Eenmanszaak registered in the Netherlands<br>
+Netherlands<br>
 KvK number: <b>88034097</b><br>
 VAT (BTW) number: <b>NL004527571B82</b><br>
 Email: <b><a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a></b><br>
 Telephone (secondary): <b>+31 6 85885124</b></p></div>
 
-  <h2><span class="n">04</span>How refunds are paid</h2>
-  <p>Refunds are made to the original payment method through Stripe. We will process your refund <strong>within 14 days</strong> of being informed of your decision. Your bank or card issuer may take a few additional days to show the money in your account.</p>
-  <p>You will not be charged a fee for requesting a refund.</p>
+  <h2><span class="n">04</span>Situations we always put right</h2>
+  <p>The absence of a change-of-mind refund does <strong>not</strong> touch the following. These are not favours and not discretionary; they apply on their own merits, with no deadline tied to your purchase date, and nothing elsewhere on this page limits them:</p>
+  <ul>
+    <li><strong>Duplicate charge</strong> &mdash; you were charged more than once for the same purchase. We refund the extra charge(s).</li>
+    <li><strong>Incorrect amount charged</strong> &mdash; you were charged something other than the advertised &euro;39.99. We refund the difference, or the full amount if the charge was not one you authorised.</li>
+    <li><strong>Access never supplied</strong> &mdash; your payment succeeded but you were never given a working way into the course, and we cannot put that right. Full refund.</li>
+    <li><strong>Defective or non-conforming digital content</strong> &mdash; the course is materially broken, inaccessible through a fault on our side, or does not match what was described at the time of purchase. Under Dutch and EU consumer law (the rules on conformity of digital content, Art. 7:50 ff. of the Burgerlijk Wetboek implementing Directive (EU) 2019/770) you are entitled to have it brought into conformity and, where that is not done within a reasonable time or fails, to a price reduction or a refund. We would rather fix it &mdash; tell us what is wrong and we will.</li>
+  </ul>
+  <p>Email <a href="mailto:support@nextaicourse.com">support@nextaicourse.com</a> for any of these, or use the form in section&nbsp;3. Nothing on this page removes or reduces any other mandatory remedy you have under Dutch or EU consumer law.</p>
 
-  <h2><span class="n">05</span>After the 14 days</h2>
-  <p>After 14 days there is no automatic entitlement to a refund. Even so, if something has gone wrong, contact us &mdash; we look at requests individually and will do what is fair and what the law requires.</p>
+  <h2><span class="n">05</span>How a refund is paid, when one is due</h2>
+  <p>A refund is due where the statutory withdrawal right was retained for your purchase (section&nbsp;2, last paragraph) or where one of the situations in section&nbsp;4 applies and cannot be resolved another way. When one is due, we make it to your original payment method through Stripe <strong>within 14 days</strong> of being informed, usually much sooner. Your bank or card issuer may take a few more days to show it. You are never charged a fee for a valid refund.</p>
 
-  <h2><span class="n">06</span>Access after a refund</h2>
+  <h2><span class="n">06</span>This policy cannot reduce your mandatory rights</h2>
+  <p>Everything above describes how we handle voluntary refunds and how the withdrawal right interacts with immediate digital delivery. It is not an attempt to contract out of consumer protection. Any right the law gives you that cannot be waived &mdash; including the conformity remedies in section&nbsp;4 and, where it was retained, the right of withdrawal in section&nbsp;2 &mdash; applies in full whatever this page says.</p>
+
+  <h2><span class="n">07</span>Access after a refund</h2>
   <p>When a refund is issued, your access to the course ends and the licence granted in our <a href="terms.html">Terms &amp; Conditions</a> comes to an end.</p>
 
-  <h2><span class="n">07</span>Governing law</h2>
+  <h2><span class="n">08</span>Governing law</h2>
   <p>This policy is governed by the law of the Netherlands. If you are a consumer resident in another EU country, you keep the protection of any mandatory consumer-law provisions of your country of residence.</p>
 
 </main>
@@ -254,7 +296,7 @@ Telephone (secondary): <b>+31 6 85885124</b></p></div>
     <div class="foot-grid">
       <div class="foot-block">
         <p class="label">Seller</p>
-        <p>VK Sales<br>Eenmanszaak &middot; Netherlands<br>KvK 88034097<br>BTW NL004527571B82</p>
+        <p>VK Sales<br>Netherlands<br>KvK 88034097<br>BTW NL004527571B82</p>
       </div>
       <div class="foot-block">
         <p class="label">Contact</p>
