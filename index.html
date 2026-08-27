@@ -90,6 +90,7 @@
     background:transparent; color:var(--ink); border:1px solid var(--line-strong);
     padding:.6rem 1.05rem; font-weight:600; font-size:.76rem; letter-spacing:.02em;
     cursor:pointer; min-height:44px; display:inline-flex; align-items:center; gap:.5rem;
+    text-decoration:none;
     transition:border-color .3s var(--ease-ui), background .3s var(--ease-ui);
   }
   .topbar-cta:hover{ border-color:var(--gold-line); background:var(--gold-wash); }
@@ -378,6 +379,7 @@
   .cta{
     border:none; cursor:pointer; font-weight:600;
     display:inline-flex; align-items:center; gap:.7rem;
+    text-decoration:none;
     transition:transform .45s var(--ease-ui), box-shadow .45s var(--ease-ui), border-color .3s var(--ease-ui), background .3s var(--ease-ui);
   }
   .cta-primary{
@@ -407,6 +409,13 @@
     padding:0 1.3rem; text-align:center; margin:0 auto;
     opacity:clamp(0, calc((var(--p,0) - 0.38) * 4), 1);
     transform:translateY(calc((1 - clamp(0, calc((var(--p,0) - 0.38) * 4), 1)) * 1.4rem));
+    /* .copy-stack stacks .hero-copy and .os-layer in the same grid cell for
+       the crossfade; being later in DOM order, .os-layer painted (and
+       hit-tested) on top of .hero-copy at ALL times, including while fully
+       transparent — silently swallowing every click/tap on the hero "Get
+       access" button underneath it. .os-layer has no interactive content
+       (text only), so it never needs to receive pointer input. */
+    pointer-events:none;
   }
   html.reduced .os-layer{ opacity:1; transform:none; padding:3.5rem 1.3rem 0; }
   .os-eyebrow{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-ghost); margin:0 0 .8rem; }
@@ -638,7 +647,7 @@
 
 <header class="topbar" id="topbar">
   <div class="topbar-word"><span class="dot"></span>Next AI Course</div>
-  <button class="topbar-cta" type="button" data-checkout>Get access <span class="p">€39.99</span></button>
+  <a class="topbar-cta" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>Get access <span class="p">€39.99</span></a>
 </header>
 
 <main id="main">
@@ -687,9 +696,9 @@
           </h1>
           <p class="hero-sub">The complete, practical system for learning AI and building real things with it.</p>
           <div class="hero-cta-wrap">
-            <button class="cta cta-primary" type="button" data-checkout>
+            <a class="cta cta-primary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>
               <span>Get access</span><span class="cta-price">€39.99</span>
-            </button>
+            </a>
             <p class="hero-fine">One-time payment · Instant access</p>
           </div>
         </div>
@@ -865,9 +874,9 @@ QUALITY CHECK:
   <div class="mid-cta" data-reveal>
     <div class="wrap">
       <p>You've seen what it builds.</p>
-      <button class="cta cta-secondary" type="button" data-checkout>
+      <a class="cta cta-secondary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout>
         <span>Get access</span><span class="cta-price">€39.99</span>
-      </button>
+      </a>
     </div>
   </div>
 
@@ -986,9 +995,9 @@ QUALITY CHECK:
       <ul class="final-stats"><li>8 modules</li><li>Self-paced</li><li>50 practical prompts</li></ul>
       <p class="final-price">€39.99</p>
       <p class="final-price-note">One-time payment</p>
-      <button class="cta cta-primary" type="button" data-checkout style="width:100%; max-width:22rem; justify-content:center;">
+      <a class="cta cta-primary" href="https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" rel="noopener" data-checkout style="width:100%; max-width:22rem; justify-content:center;">
         <span>Get access</span><span class="cta-price">€39.99</span>
-      </button>
+      </a>
       <ul class="final-trust"><li>Secure checkout</li><li>Support available</li></ul>
     </div>
   </section>
@@ -1006,28 +1015,9 @@ QUALITY CHECK:
 
 </main>
 
-<script>
-  window.AI_ADVANTAGE = { CHECKOUT_URL: "https://buy.stripe.com/eVq28k6CY4iScr27uE6Ri00" };
-</script>
-
-<script>
-(function(){
-  var cfg = window.AI_ADVANTAGE || {};
-  var url = (cfg.CHECKOUT_URL || '').trim();
-  var buttons = document.querySelectorAll('[data-checkout]');
-  if (!buttons.length) return;
-  for (var i = 0; i < buttons.length; i++){
-    buttons[i].addEventListener('click', function(e){
-      e.preventDefault();
-      if (url){ window.location.href = url; return; }
-      var offer = document.getElementById('final');
-      if (!offer) return;
-      try { offer.scrollIntoView({ behavior:'smooth', block:'start' }); }
-      catch (err) { offer.scrollIntoView(); }
-    });
-  }
-})();
-</script>
+<!-- All "Get access" CTAs above are now plain <a href="https://buy.stripe.com/...">
+     links to the live Stripe Payment Link — no JS is required for checkout
+     to open; it works even if a script errors or is blocked. -->
 
 <script>
 (function(){
