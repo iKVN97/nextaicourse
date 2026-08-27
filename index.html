@@ -1115,9 +1115,17 @@ QUALITY CHECK:
   // charged or fabricate a consent. There is no static Stripe Payment Link
   // left active anywhere on this page — every [data-checkout] button opens
   // the same consent modal, which drives the same two calls below.
+  //
+  // Same-origin paths, not the learn.nextaicourse.com subdomain: this
+  // Worker is also bound directly to nextaicourse.com/api/* (see
+  // backend/wrangler.toml), so these calls never leave this page's own
+  // origin — no CORS, no cross-site request of any kind. Fixes a real
+  // production failure where the cross-origin fetch to a separate
+  // subdomain broke in some real-world browser/network conditions even
+  // though the API itself was verified working directly.
   window.AI_ADVANTAGE = {
-    CONSENT_API: "https://learn.nextaicourse.com/api/consent",
-    CHECKOUT_API: "https://learn.nextaicourse.com/api/checkout"
+    CONSENT_API: "/api/consent",
+    CHECKOUT_API: "/api/checkout"
   };
 </script>
 

@@ -109,7 +109,12 @@
   // (which asks Stripe directly, server-side) what actually happened. See
   // backend/src/routes/verifyCheckout.js. A forged/guessed session_id fails
   // there, not here.
-  var VERIFY_API = 'https://learn.nextaicourse.com/api/verify-checkout';
+  //
+  // Same-origin path (nextaicourse.com/api/*, same Worker binding as the
+  // checkout modal — see backend/wrangler.toml) rather than the
+  // learn.nextaicourse.com subdomain, for the same cross-origin-fragility
+  // reason as index.html's CONSENT_API/CHECKOUT_API.
+  var VERIFY_API = '/api/verify-checkout';
   var COURSE_URL = 'https://learn.nextaicourse.com/';
 
   function show(id){
