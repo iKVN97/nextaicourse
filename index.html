@@ -3,6 +3,8 @@
 <meta charset="utf-8">
 <!-- Meta Pixel: loads only after explicit consent — see consent-pixel.js and privacy.html §2 -->
 <script src="consent-pixel.js"></script>
+<!-- First-party internal analytics, independent of the Meta Pixel consent gate above — see analytics.js and privacy.html §02 -->
+<script src="analytics.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
 <title>Next AI Course — Learn AI. Build With It.</title>
@@ -1233,6 +1235,14 @@ QUALITY CHECK:
         var checkoutBody = { consentId: consentData.consentId };
         var utm = getStoredUtm();
         for (var k in utm) { if (utm.hasOwnProperty(k)) checkoutBody[k] = utm[k]; }
+        // Anonymous first-party visitor/session ids, for internal
+        // analytics attribution only (see analytics.js) — absent entirely
+        // if analytics.js failed to load or hasn't run yet, which never
+        // blocks checkout.
+        if (window.nacAnalytics) {
+          checkoutBody.visitorId = window.nacAnalytics.visitorId;
+          checkoutBody.sessionId = window.nacAnalytics.sessionId;
+        }
         return fetch(checkoutApi, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1254,6 +1264,12 @@ QUALITY CHECK:
         if (typeof fbq === 'function') {
           fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'EUR' });
         }
+        // Fires immediately before navigating away to Stripe — uses
+        // sendBeacon internally (see analytics.js) so it isn't cut off by
+        // the redirect that happens on the very next line.
+        if (typeof window.nacTrack === 'function') {
+          window.nacTrack('checkout_redirect', { stripeSessionId: data.id });
+        }
         window.location.href = data.url;
       })
       .catch(function(){
@@ -1265,6 +1281,7 @@ QUALITY CHECK:
   for (var i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('click', function(e){
       e.preventDefault();
+      if (typeof window.nacTrack === 'function') window.nacTrack('get_access_click');
       openModal();
     });
   }
